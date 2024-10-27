@@ -1,0 +1,100 @@
+### MAIN
+[user]
+	name = Akhdan Fadhilah
+	email = akhdan@vision.is.tohoku.ac.jp
+	username = akhdanfadh
+[init]
+	# Default branch when initializing a new repository,
+	# as opposed to the old default, `master`.
+	defaultBranch = main
+	# Disables automatic conversion of line endings between Windows and Unix.
+	# It prevents Git from changing CRLF to LF on check-in or check-out.
+	autocrlf = false
+[core]
+	# Set default text editor for commit messages or any interactive Git
+	# commands that need text input.
+	editor = vim
+[gpg]
+	# Configure GPG signature format to use SSH keys for commit signing,
+	# rather than the default GPG keys.
+	format = ssh
+[url "git@github.com:"]
+	# Ensures SSH keys are used for authentication instead of HTTPS.
+	insteadOf = "https://github.com/"
+[log]
+	# Formats commit dates in ISO 8601 format (e.g., 2024-10-04)
+	date = iso
+[help]
+	# When a user mistypes a command, Git will suggest a correct one and
+	# prompt whether to execute it instead of automatically correcting it.
+	autocorrect = prompt
+
+### CONFLICT RESOLUTION
+[rerere]
+	# "reuse recorder resolution" feature,
+	# which helps Git remember how you resolved conflicts and reuse those
+	# resolutions in the future if the same conflict occurs.
+	enabled = true
+[merge]
+	# zdiff3 gives a clearer view of merge conflicts by showing the common
+	# ancestor, current branch, and the branch being merged.
+	conflictstyle = zdiff3
+
+### BRANCH
+[branch]
+	# When listing branches, they are sorted by the latest commit date.
+	sort = -committerdate
+[push]
+	# When creating a new branch and pushing it to the remote,
+	# it automatically links the branch to the upstream branch without
+	# needing to set it manually.
+	autoSetupRemote = true
+
+### DIFF
+[core]
+	# Replaces the default pager (less) with a feature-rich diff viewer.
+	pager = delta
+[diff]
+	# Set default tool for resolving merge conflicts interactively using Vim.
+	tool = vimdiff
+	# histogram can produce better diffs by finding more meaningful changes,
+	# especially in reordered code.
+	algorithm = histogram
+	# Highlights moved lines in a diff, which helps identify code blocks that
+	# have been relocated.
+	colorMoved = default
+[commit]
+	# Include changes diff in the commit message editor.
+	verbose = true
+[delta]
+	navigate = true  # Use n and N to move between diff sections
+	line-numbers = true
+[interactive]
+	# When running `git add  -p` (interactive staging), delta will be used
+	# to colorize the diff output.
+	diffFilter = delta --color-only
+
+### INTEGRITY CHECK
+# Enable Git's object consistency checks (fsck) for various operations
+# to detect and avoid data corruption
+[transfer]
+	fsckobjects = true
+[fetch]
+	fsckobjects = true
+[receive]
+	fsckobjects = true
+
+### SUBMODULE
+[status]
+	# Shows a summary of changes in submodules when running `git status`.
+	submoduleSummary = true
+[diff]
+	# When comparing commits, this shows a summary of changes made to
+	# submodules (via their commit logs) rather than treating submodules
+	# as opaque blocks.
+	submodule = log
+[submodule]
+	# When running git commands, this ensures that Git automatically recurses
+	# into submodules and applies the same operation. Useful for keeping
+	# submodules in sync.
+	recurse = true
