@@ -1,0 +1,24 @@
+{{- $os_id := .chezmoi.os -}}
+{{- if hasKey .chezmoi.osRelease "id" -}}
+{{-     $os_id = printf "%s-%s" .chezmoi.os .chezmoi.osRelease.id -}}
+{{- end -}}
+
+{{- $is_wsl := false -}}
+{{- if hasKey .chezmoi.kernel "osrelease" -}}
+{{-     if (.chezmoi.kernel.osrelease | lower | contains "microsoft") -}}
+{{-         $is_wsl = true -}}
+{{-     end -}}
+{{- end -}}
+
+[data]
+    os_id = {{ $os_id | quote }}
+    is_wsl = {{ $is_wsl }}
+
+{{- $email := promptStringOnce . "git.email" "Git email address:" -}}
+
+[data.git]
+    email = {{ $email | quote }}
+
+[diff]
+    command = "delta"
+    pager = "delta"
