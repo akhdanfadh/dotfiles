@@ -1,12 +1,17 @@
-# Auto load tmux
-if [ -z "$TMUX" ]
-then
+# >>> TMUX-related config >>>
+if [ -z "$TMUX" ]; then
+    # Auto load tmux
+    # echo "Are you tmuxing?"
     tmux attach -t default || tmux new -s default
+
+    # tmux aliases
+    alias tm="tmux new -A -s"  # start new or attach to named session
+    alias tml="tmux ls"  # new named session
+    alias tmk="tmux kill-session -t"  # terminate named running tmux session
+    alias tms="tmux source ~/.config/tmux/tmux.conf"  # terminate named running tmux session
+    alias tmka="tmux kill-server"  # terminall all tmux sessions
 fi
-# tmux reminder
-# if [ -z "$TMUX" ]; then
-#     echo "Are you tmuxing?"
-# fi
+# <<< TMUX-related config <<<
 
 # Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
 # Initialization code that may require console input (password prompts, [y/n]
@@ -32,6 +37,7 @@ plugins=(
     chezmoi
     debian
     copypath
+    gh
     git
     npm
     pip
@@ -100,47 +106,47 @@ export LC_TIME=en_GB.UTF-8
 export LC_PAPER=en_GB.UTF-8
 export LC_MEASUREMENT=en_GB.UTF-8
 
-# >>> conda initialize >>>
-# !! Contents within this block are managed by 'conda init' !!
-__conda_setup="$('/home/dani/miniconda3/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
-if [ $? -eq 0 ]; then
-    eval "$__conda_setup"
-else
-    if [ -f "/home/dani/miniconda3/etc/profile.d/conda.sh" ]; then
-        . "/home/dani/miniconda3/etc/profile.d/conda.sh"
-    else
-        export PATH="/home/dani/miniconda3/bin:$PATH"
-    fi
-fi
-unset __conda_setup
-# <<< conda initialize <<<
-
 # Neovim path
 export PATH="/opt/nvim-linux64/bin:$PATH"
 export EDITOR="nvim"
 alias v="nvim"
 
-# Wezterm WSL Config
-export MICROSOFT_UNAME=$(uname -a | grep -i microsoft)
-export IS_WSL=$( [ ! -z "$MICROSOFT_UNAME" ] && echo "1" || echo "0" )
-if [[ "$IS_WSL" == "1" ]]; then
-    alias wezedit="nvim ~/.config/wezterm/wezterm.lua"
-    alias wezpush="cp ~/.config/wezterm/wezterm.lua /mnt/c/Users/akhdan/.config/wezterm/wezterm.lua "
-    alias wezeditwin="vim /mnt/c/Users/akhdan/.config/wezterm/wezterm.lua"
-    alias wezpull="cp /mnt/c/Users/akhdan/.config/wezterm/wezterm.lua ~/.config/wezterm/wezterm.lua"
-fi
+# NVM path (Node Version Manager, miniconda for node.js)
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 
-# WSL Browser config - make sure `wslu` is installed
-if [[ "$IS_WSL" == "1" ]]; then
-    export BROWSER=wslview
+# >>> conda initialize >>>
+# !! Contents within this block are managed by 'conda init' !!
+__conda_setup="$('/home/akhdan/miniconda3/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
+if [ $? -eq 0 ]; then
+    eval "$__conda_setup"
+else
+    if [ -f "/home/akhdan/miniconda3/etc/profile.d/conda.sh" ]; then
+        . "/home/akhdan/miniconda3/etc/profile.d/conda.sh"
+    else
+        export PATH="/home/akhdan/miniconda3/bin:$PATH"
+    fi
 fi
+unset __conda_setup
+# <<< conda initialize <<<
 
-# tmux aliases
-alias tm="tmux new -A -s"  # start new or attach to named session
-alias tml="tmux ls"  # new named session
-alias tmk="tmux kill-session -t"  # terminate named running tmux session
-alias tms="tmux source ~/.config/tmux/tmux.conf"  # terminate named running tmux session
-alias tmka="tmux kill-server"  # terminall all tmux sessions
+# >>> WSL-only config >>>
+# # Wezterm WSL Config
+# export MICROSOFT_UNAME=$(uname -a | grep -i microsoft)
+# export IS_WSL=$( [ ! -z "$MICROSOFT_UNAME" ] && echo "1" || echo "0" )
+# if [[ "$IS_WSL" == "1" ]]; then
+#     alias wezedit="nvim ~/.config/wezterm/wezterm.lua"
+#     alias wezpush="cp ~/.config/wezterm/wezterm.lua /mnt/c/Users/akhdan/.config/wezterm/wezterm.lua "
+#     alias wezeditwin="vim /mnt/c/Users/akhdan/.config/wezterm/wezterm.lua"
+#     alias wezpull="cp /mnt/c/Users/akhdan/.config/wezterm/wezterm.lua ~/.config/wezterm/wezterm.lua"
+# fi
+# 
+# # WSL Browser config - make sure `wslu` is installed
+# if [[ "$IS_WSL" == "1" ]]; then
+#     export BROWSER=wslview
+# fi
+# <<< WSL-only config <<<
 
 # To customize prompt, run `p10k configure` or edit ~/.config/p10k.zsh or ~/.p10k.zsh.
 [[ -f ~/.config/p10k.zsh ]] && source ~/.config/p10k.zsh || source ~/.p10k.zsh
