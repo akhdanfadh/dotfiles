@@ -10,10 +10,15 @@
 {{-     end -}}
 {{- end -}}
 
+{{- $overleaf_cookies := promptString "nvim overleaf cookies" -}}
+{{- $obsidian_vault := promptString "obsidian vault abs path" -}}
+
 [data]
     os_id = {{ $os_id | quote }}
     is_wsl = {{ $is_wsl }}
     tmux_data_dir = "{{ .chezmoi.homeDir }}/.local/share/tmux"
+    overleaf_cookies = {{ $overleaf_cookies | quote }}
+    obsidian_vault = {{ $obsidian_vault | quote }}
 
 [diff]
     command = "delta"

@@ -5,8 +5,8 @@ return {
 	-- ft = "markdown",
 	event = { -- Replace above to open markdown only in this directory
 		-- Use absolute path
-		"BufReadPre /mnt/e/obsidian-vaults/danidon/*.md",
-		"BufNewFile /mnt/e/obsidian-vaults/danidon/*.md",
+		"BufReadPre {{ .obsidian_vault }}/*.md",
+		"BufNewFile {{ .obsidian_vault }}/*.md",
 	},
 	dependencies = {
 		"nvim-lua/plenary.nvim", -- required
@@ -19,7 +19,7 @@ return {
 			workspaces = {
 				{
 					name = "default",
-					path = "/mnt/e/obsidian-vaults/danidon",
+					path = "{{ .obsidian_vault }}",
 				},
 			},
 			-- Optional, if you keep notes in a specific subdirectory of your vault.

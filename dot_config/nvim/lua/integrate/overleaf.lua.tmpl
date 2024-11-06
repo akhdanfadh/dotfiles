@@ -3,13 +3,10 @@ return {
 	commit = "f9b361d", -- Airmount bug, https://github.com/dmadisetti/AirLatex.vim/issues/29
 	build = ":UpdateRemotePlugins",
 	config = function()
-		-- Point to the cookie database on the Windows file system from WSL
-		-- vim.g.AirLatexCookieDB = "/mnt/c/Users/akhdan/AppData/Roaming/Mozilla/Firefox/Profiles/*.default/cookies.sqlite"
-
-		-- Session key is platform-independent
-		-- WSL can access the internet through Windoes, so it can communicate with Overleaf servers
+		-- Session key is platform-independent, e.g.,
+		-- WSL can access the internet through Windows, so it can communicate with Overleaf servers
 		vim.g.AirLatexCookie =
-			"overleaf_session2=s%3ArHOr5tmRuPoTCnWhUY9vbiLOSyhTQu0T.fOR6gvJRhx2RpImBZKfAFOblSsA86n%2ByY6CxzmjspRo"
+			"overleaf_session2={{ .overleaf_cookies }}"
 		vim.g.AirLatexDomain = "www.overleaf.com"
 
 		-- Optional additional settings
