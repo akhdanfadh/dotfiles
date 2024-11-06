@@ -71,9 +71,7 @@ bind -T copy-mode-vi L send -X end-of-line
 
 # ------ PLUGINS
 
-set -g @plugin_dir "$HOME/.local/share/tmux/plugins"
-if-shell "test ! -d #{@plugin_dir}/tpm" \
-    "run-shell 'git clone https://github.com/tmux-plugins/tpm #{@plugin_dir}/tpm'"
+set-environment -g TMUX_PLUGIN_MANAGER_PATH '{{ .tmux_data_dir }}/plugins'
 
 set -g @plugin "tmux-plugins/tpm"  # our plugin manager
 set -g @plugin "tmux-plugins/tmux-sensible"  # tmux settings everyone agreed
@@ -81,7 +79,7 @@ set -g @plugin "christoomey/vim-tmux-navigator"  # better navigation with nvim
 
 # resurrect use prefix + C-s/C-r to save/restore
 set -g @plugin 'tmux-plugins/tmux-resurrect'  # persist tmux env across system restarts
-set -g @resurrect-dir "$HOME/.local/share/tmux/resurrect-files"  # save resurrect data here
+set -g @resurrect-dir "{{ .tmux_data_dir }}/resurrect-files"  # save resurrect data here
 set -g @resurrect-capture-pane-contents 'on'  # save pane contents
 set -g @resurrect-strategy-nvim 'session'  # save nvim session
 
@@ -97,7 +95,7 @@ set -g @minimal-tmux-indicator-str " C-a "
 # Continuum rely on status-right hook or so, so anything modifying that will make autosave not working
 # https://github.com/tmux-plugins/tmux-continuum/issues/48
 # maybe relevant in the future: https://github.com/tmux-plugins/tmux-continuum/issues/24
-set -g @minimal-tmux-status-right-extra "#(#{@plugin_dir}/tmux-continuum/scripts/continuum_save.sh) #{continuum_status}"
+set -g @minimal-tmux-status-right-extra "#({{ .tmux_data_dir }}/plugins/tmux-continuum/scripts/continuum_save.sh) #{continuum_status}"
 # set -g @continuum-save-interval '1'
 
 
@@ -128,6 +126,9 @@ if-shell 'test -n "$SSH_CLIENT"' \
 
 # ---------------
 
-run-shell '#{@plugin_dir}/tpm/tpm'
+if-shell "test ! -d {{ .tmux_data_dir }}/plugins/tpm" \
+    "run-shell 'git clone https://github.com/tmux-plugins/tpm {{ .tmux_data_dir }}/plugins/tpm && {{ .tmux_data_dir }}/plugins/tpm/bin/install_plugins'"
+run-shell "{{ .tmux_data_dir }}/plugins/tpm/bin/update_plugins all"
+run-shell "{{ .tmux_data_dir }}/plugins/tpm/tpm"
 
 # vim: syntax=tmux

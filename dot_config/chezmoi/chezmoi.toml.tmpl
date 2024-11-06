@@ -13,12 +13,10 @@
 [data]
     os_id = {{ $os_id | quote }}
     is_wsl = {{ $is_wsl }}
-
-{{- $email := promptStringOnce . "git.email" "Git email address:" -}}
-
-[data.git]
-    email = {{ $email | quote }}
+    tmux_data_dir = "{{ .chezmoi.homeDir }}/.local/share/tmux"
 
 [diff]
     command = "delta"
     pager = "delta"
+
+# vim: syntax=toml
