@@ -37,10 +37,10 @@ return {
 		vim.keymap.set("n", "o", "<Plug>(bullets-newline)", { noremap = true, silent = true })
 		-- vim.keymap.set("v", "gN", "<Plug>(bullets-renumber)", { noremap = true, silent = true })
 		-- vim.keymap.set("n", "gN", "<Plug>(bullets-renumber)", { noremap = true, silent = true })
-		vim.keymap.set("i", "<C-t>", "<Plug>(bullets-demote)", { noremap = true, silent = true })
+		-- vim.keymap.set("i", "<C-t>", "<Plug>(bullets-demote)", { noremap = true, silent = true })
 		vim.keymap.set("n", ">>", "<Plug>(bullets-demote)", { noremap = true, silent = true })
 		vim.keymap.set("v", ">", "<Plug>(bullets-demote)", { noremap = true, silent = true })
-		vim.keymap.set("i", "<C-d>", "<Plug>(bullets-promote)", { noremap = true, silent = true })
+		-- vim.keymap.set("i", "<C-d>", "<Plug>(bullets-promote)", { noremap = true, silent = true })
 		vim.keymap.set("n", "<<", "<Plug>(bullets-promote)", { noremap = true, silent = true })
 		vim.keymap.set("v", "<", "<Plug>(bullets-promote)", { noremap = true, silent = true })
 
