@@ -1,17 +1,8 @@
-# >>> TMUX-related config >>>
+# Auto load TMUX
 if [ -z "$TMUX" ]; then
-    # Auto load tmux
     # echo "Are you tmuxing?"
     tmux attach -t default || tmux new -s default
-
-    # tmux aliases
-    alias tm="tmux new -A -s"  # start new or attach to named session
-    alias tml="tmux ls"  # new named session
-    alias tmk="tmux kill-session -t"  # terminate named running tmux session
-    alias tms="tmux source ~/.config/tmux/tmux.conf"  # terminate named running tmux session
-    alias tmka="tmux kill-server"  # terminall all tmux sessions
 fi
-# <<< TMUX-related config <<<
 
 # Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
 # Initialization code that may require console input (password prompts, [y/n]
@@ -130,6 +121,13 @@ else
 fi
 unset __conda_setup
 # <<< conda initialize <<<
+
+# TMUX aliases
+alias tm="tmux new -A -s"  # start new or attach to named session
+alias tml="tmux ls"  # new named session
+alias tmk="tmux kill-session -t"  # terminate named running tmux session
+alias tms="tmux source ~/.config/tmux/tmux.conf"  # terminate named running tmux session
+alias tmka="tmux kill-server"  # terminall all tmux sessions
 
 # >>> WSL-only config >>>
 # # Wezterm WSL Config
