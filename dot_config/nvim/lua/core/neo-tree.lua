@@ -6,7 +6,7 @@ return {
 		"nvim-lua/plenary.nvim", -- "all lua functions i don't want to write twice"
 		"nvim-tree/nvim-web-devicons", -- icons, not required but recommended
 		"MunifTanjim/nui.nvim", -- UI component library for neovim
-		"3rd/image.nvim", -- Optional image support in preview window
+		-- "3rd/image.nvim", -- Optional image support in preview window
 	},
 	cmd = "Neotree",
 
