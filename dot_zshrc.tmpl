@@ -109,14 +109,14 @@ export NVM_DIR="$HOME/.nvm"
 
 # >>> conda initialize >>>
 # !! Contents within this block are managed by 'conda init' !!
-__conda_setup="$('/home/akhdan/miniconda3/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
+__conda_setup="$('{{ .chezmoi.homeDir }}/miniconda3/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
 if [ $? -eq 0 ]; then
     eval "$__conda_setup"
 else
-    if [ -f "/home/akhdan/miniconda3/etc/profile.d/conda.sh" ]; then
-        . "/home/akhdan/miniconda3/etc/profile.d/conda.sh"
+    if [ -f "{{ .chezmoi.homeDir }}/miniconda3/etc/profile.d/conda.sh" ]; then
+        . "{{ .chezmoi.homeDir }}/miniconda3/etc/profile.d/conda.sh"
     else
-        export PATH="/home/akhdan/miniconda3/bin:$PATH"
+        export PATH="{{ .chezmoi.homeDir }}/miniconda3/bin:$PATH"
     fi
 fi
 unset __conda_setup
@@ -129,22 +129,20 @@ alias tmk="tmux kill-session -t"  # terminate named running tmux session
 alias tms="tmux source ~/.config/tmux/tmux.conf"  # terminate named running tmux session
 alias tmka="tmux kill-server"  # terminall all tmux sessions
 
+{{- if eq .is_wsl true -}}
 # >>> WSL-only config >>>
-# # Wezterm WSL Config
-# export MICROSOFT_UNAME=$(uname -a | grep -i microsoft)
-# export IS_WSL=$( [ ! -z "$MICROSOFT_UNAME" ] && echo "1" || echo "0" )
-# if [[ "$IS_WSL" == "1" ]]; then
-#     alias wezedit="nvim ~/.config/wezterm/wezterm.lua"
-#     alias wezpush="cp ~/.config/wezterm/wezterm.lua /mnt/c/Users/akhdan/.config/wezterm/wezterm.lua "
-#     alias wezeditwin="vim /mnt/c/Users/akhdan/.config/wezterm/wezterm.lua"
-#     alias wezpull="cp /mnt/c/Users/akhdan/.config/wezterm/wezterm.lua ~/.config/wezterm/wezterm.lua"
-# fi
-# 
-# # WSL Browser config - make sure `wslu` is installed
-# if [[ "$IS_WSL" == "1" ]]; then
-#     export BROWSER=wslview
-# fi
+# Wezterm WSL Config
+alias wezedit="nvim ~/.config/wezterm/wezterm.lua"
+alias wezpush="cp ~/.config/wezterm/wezterm.lua /mnt/c/Users/akhdan/.config/wezterm/wezterm.lua "
+alias wezeditwin="vim /mnt/c/Users/akhdan/.config/wezterm/wezterm.lua"
+alias wezpull="cp /mnt/c/Users/akhdan/.config/wezterm/wezterm.lua ~/.config/wezterm/wezterm.lua"
+
+# WSL Browser config - make sure `wslu` is installed
+export BROWSER=wslview
 # <<< WSL-only config <<<
+{{ end }}
 
 # To customize prompt, run `p10k configure` or edit ~/.config/p10k.zsh or ~/.p10k.zsh.
 [[ -f ~/.config/p10k.zsh ]] && source ~/.config/p10k.zsh || source ~/.p10k.zsh
+
+# vim: syntax=bash
