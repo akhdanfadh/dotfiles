@@ -13,7 +13,7 @@
 [core]
 	# Set default text editor for commit messages or any interactive Git
 	# commands that need text input.
-	editor = vim
+	editor = nvim
 [gpg]
 	# Configure GPG signature format to use SSH keys for commit signing,
 	# rather than the default GPG keys.
@@ -28,17 +28,6 @@
 	# When a user mistypes a command, Git will suggest a correct one and
 	# prompt whether to execute it instead of automatically correcting it.
 	autocorrect = prompt
-
-### CONFLICT RESOLUTION
-[rerere]
-	# "reuse recorder resolution" feature,
-	# which helps Git remember how you resolved conflicts and reuse those
-	# resolutions in the future if the same conflict occurs.
-	enabled = true
-[merge]
-	# zdiff3 gives a clearer view of merge conflicts by showing the common
-	# ancestor, current branch, and the branch being merged.
-	conflictstyle = zdiff3
 
 ### BRANCH
 [branch]
@@ -56,7 +45,7 @@
 	pager = delta
 [diff]
 	# Set default tool for resolving merge conflicts interactively using Vim.
-	tool = vimdiff
+	tool = nvimdiff
 	# histogram can produce better diffs by finding more meaningful changes,
 	# especially in reordered code.
 	algorithm = histogram
@@ -69,10 +58,22 @@
 [delta]
 	navigate = true  # Use n and N to move between diff sections
 	line-numbers = true
+    side-by-side = false
 [interactive]
 	# When running `git add  -p` (interactive staging), delta will be used
 	# to colorize the diff output.
 	diffFilter = delta --color-only
+
+### CONFLICT RESOLUTION
+[rerere]
+	# "reuse recorder resolution" feature,
+	# which helps Git remember how you resolved conflicts and reuse those
+	# resolutions in the future if the same conflict occurs.
+	enabled = true
+[merge]
+	# zdiff3 gives a clearer view of merge conflicts by showing the common
+	# ancestor, current branch, and the branch being merged.
+	conflictstyle = zdiff3
 
 ### INTEGRITY CHECK
 # Enable Git's object consistency checks (fsck) for various operations
