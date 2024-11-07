@@ -1,7 +1,8 @@
 # Auto load TMUX
-if [ -z "$TMUX" ]; then
+# https://unix.stackexchange.com/questions/43601/how-can-i-set-my-default-shell-to-start-up-tmux
+if command -v tmux &> /dev/null && [ -n "$PS1" ] && [[ ! "$TERM" =~ screen ]] && [[ ! "$TERM" =~ tmux ]] && [ -z "$TMUX" ]; then
     # echo "Are you tmuxing?"
-    tmux attach -t default || tmux new -s default
+    tmux attach -t main || tmux new -s main
 fi
 
 # Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
@@ -36,14 +37,16 @@ plugins=(
     aliases
 )
 
-# plugin configuration
+# zsh-vi-mode config
 function zvm_config() {
     ZVM_INIT_MODE=sourcing
     ZVM_VI_INSERT_ESCAPE_BINDKEY='jj'
     ZVM_LINE_INIT_MODE=$ZVM_MODE_INSERT 
-    # mode: classic = nvim-surround, s-prefix = mini.surround
-    ZVM_VI_SURROUND_BINDKEY='classic'
+    ZVM_VI_SURROUND_BINDKEY='classic'  # classic = nvim-surround, s-prefix = mini.surround
 }
+
+# zsh-autosuggestions config
+ZSH_AUTOSUGGEST_STRATEGY=(history completion)
 
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 source $ZSH/oh-my-zsh.sh
@@ -61,23 +64,32 @@ done
 for key in $down[@]; do
     bindkey "$key" down-line-or-history
 done
+}
 
+# Vim key navigate history
 bindkey -M vicmd 'j' down-line-or-history
 bindkey -M vicmd 'k' up-line-or-history
-# bindkey -M viins "^j" down-line-or-history
-# bindkey -M viins "^k" up-line-or-history
-}
+bindkey -M viins "^j" down-line-or-history
+bindkey -M viins "^k" up-line-or-history
+
 # Extra vim custom mapping
 bindkey -M vicmd 'H' beginning-of-line
 bindkey -M vicmd 'L' end-of-line
-# Cycle completions 
-bindkey "^n" menu-complete  # careful here, ctrl-i is also tab
-bindkey "^p" reverse-menu-complete
-# bindkey '^I' menu-complete
-# bindkey "$terminfo[kcbt]" reverse-menu-complete
-# zsh-autosuggestions related
-bindkey "^y" autosuggest-accept
+
+# Cycle completions
+bindkey '^I' menu-select
+bindkey -M menuselect 'j' menu-complete
+bindkey -M menuselect 'k' reverse-menu-complete
+# bindkey -M menuselect '^I' accept-line
+
+# Autosuggestion binding
+bindkey "^_" autosuggest-accept  # Ctrl-/ accept all
+bindkey "^L" forward-word  # accept next word
+
 # <<< KEYBINDINGS <<<
+
+# Autocomplete wait for a minimum amount of input
+zstyle ':autocomplete:*' min-input 3
 
 # Faster pasting multiline commands, especially with autosuggest and highlighting
 # https://github.com/zsh-users/zsh-autosuggestions/issues/238
@@ -101,6 +113,7 @@ export LC_MEASUREMENT=en_GB.UTF-8
 export PATH="/opt/nvim-linux64/bin:$PATH"
 export EDITOR="nvim"
 alias v="nvim"
+alias vr="nvim -R"
 
 # NVM path (Node Version Manager, miniconda for node.js)
 export NVM_DIR="$HOME/.nvm"
@@ -123,11 +136,18 @@ unset __conda_setup
 # <<< conda initialize <<<
 
 # TMUX aliases
-alias tm="tmux new -A -s"  # start new or attach to named session
+alias tm="tmux"
+alias tmn="tmux new -A -s"  # start new or attach to named session
 alias tml="tmux ls"  # new named session
 alias tmk="tmux kill-session -t"  # terminate named running tmux session
 alias tms="tmux source ~/.config/tmux/tmux.conf"  # terminate named running tmux session
 alias tmka="tmux kill-server"  # terminall all tmux sessions
+
+# Chezmoi aliases
+alias cm="chezmoi"
+alias cme="chezmoi edit -a"
+alias cma="chezmoi apply"
+alias cmav="chezmoi apply ~/.config/nvim"
 
 {{- if eq .is_wsl true -}}
 # >>> WSL-only config >>>
