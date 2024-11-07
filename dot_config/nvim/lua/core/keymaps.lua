@@ -42,8 +42,9 @@ vim.keymap.set("i", "<A-j>", "<Esc>:m .+1<CR>==gi", opts)
 vim.keymap.set("i", "<A-k>", "<Esc>:m .-2<CR>==gi", opts)
 -- <Esc> then j is the same as <Alt-j> in many terminal, so disabling this
 -- Or alternatively, if using tmux, `set -sg escape-time 10`
-vim.keymap.set("n", "<A-j>", ":m .+1<CR>==", opts)
-vim.keymap.set("n", "<A-k>", ":m .-2<CR>==", opts)
+-- Recent changes I decide to use Alt for vim-tmux-navigator
+-- vim.keymap.set("n", "<A-j>", ":m .+1<CR>==", opts)
+-- vim.keymap.set("n", "<A-k>", ":m .-2<CR>==", opts)
 
 -- Save and quit aliases
 -- vim.keymap.set("n", "<C-s>", "<cmd> w <CR>", opts)

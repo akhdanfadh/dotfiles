@@ -1,57 +1,60 @@
 # ------ GENERAL
 
-set -g mouse on
 # set -g default-terminal "xterm-256color"
 set -ga terminal-overrides ",xterm-256color:Tc" 
 set -sg escape-time 0  # escape key timeout, see https://github.com/LunarVim/LunarVim/issues/1857
+
+set -g mouse on
 set -g set-clipboard on
-
-set -g prefix C-a
-bind C-a send-prefix  # press C-a twice to send on nested tmux sessions
-bind q detach
-
-
-# ------ DISPLAY
-
-set -g pane-border-lines heavy
 
 set -g base-index 1  # base index numbering from 1, instead of 0
 setw -g pane-base-index 1
+set -g pane-border-lines heavy
+
 set -g renumber-windows on  # renumber windows when closing one
 setw -g automatic-rename off  # rename window to reflect current program
 
 set -g monitor-activity on  # monitor window activity
 set -g visual-activity off  # activity bell and whistles
 
+# ------ KEYBINDINGS
 
-# ------ NAVIGATION
+unbind-key -a  # unbind every prefix key, USE WITH CAUTION
 
+set -g prefix C-Space
+bind C-Space send-prefix  # press C-a twice to send on nested tmux sessions
+
+bind : command-prompt
+bind ? list-keys
+bind d detach-client
 bind t choose-tree -Zw
-bind -r p previous-window
-bind -r n next-window
-bind q confirm kill-pane
-bind Q confirm kill-window
 
+bind p display-panes
+bind s split-window -v -c "#{pane_current_path}"
+bind v split-window -h -c "#{pane_current_path}"
+bind M break-pane
+bind q confirm kill-pane
+
+bind -r m resize-pane -Z
+bind -r j resize-pane -D 2
+bind -r k resize-pane -U 2
+bind -r l resize-pane -R 2
+bind -r h resize-pane -L 2
+bind -r < swap-pane -U
+bind -r > swap-pane -D
+
+bind -r C-j previous-window
+bind -r C-k next-window
+bind -r C-/ last-window
 bind c new-window -c "#{pane_current_path}"
 # this code below makes restoring tmux with resurrect buggy:
 # need to press enter multiple times while the statusbar only showing "Restoring..."
 # set-hook -g after-new-window 'command-prompt -I "#{window_name}" "rename-window '%%'"
 bind r command-prompt -I'#W' { rename-window -- '%%' }
+bind Q confirm kill-window
 
 bind C command-prompt -p "Session name:" "new-session -s '%1'"
 bind R command-prompt -I'#S' { rename-session -- '%%' }
-
-bind s split-window -v -c "#{pane_current_path}"
-bind v split-window -h -c "#{pane_current_path}"
-bind z resize-pane -Z
-bind Z break-pane
-
-bind -r j resize-pane -D 2
-bind -r k resize-pane -U 2
-bind -r l resize-pane -R 2
-bind -r h resize-pane -L 2
-bind -r w swap-pane -D
-
 
 # ------ COPY MODE, SCROLL
 
@@ -68,14 +71,20 @@ bind -T copy-mode-vi y send -X copy-selection-and-cancel
 bind -T copy-mode-vi H send -X start-of-line
 bind -T copy-mode-vi L send -X end-of-line
 
-
 # ------ PLUGINS
 
 set-environment -g TMUX_PLUGIN_MANAGER_PATH '{{ .tmux_data_dir }}/plugins'
 
+# tpm set `bind I install-plugins`
 set -g @plugin "tmux-plugins/tpm"  # our plugin manager
 set -g @plugin "tmux-plugins/tmux-sensible"  # tmux settings everyone agreed
+
 set -g @plugin "christoomey/vim-tmux-navigator"  # better navigation with nvim
+set -g @vim_navigator_mapping_left "M-h"
+set -g @vim_navigator_mapping_right "M-l"
+set -g @vim_navigator_mapping_up "M-k"
+set -g @vim_navigator_mapping_down "M-j"
+set -g @vim_navigator_mapping_prev "M-/"
 
 # resurrect use prefix + C-s/C-r to save/restore
 set -g @plugin 'tmux-plugins/tmux-resurrect'  # persist tmux env across system restarts
@@ -90,14 +99,13 @@ set -g @plugin 'niksingh710/minimal-tmux-status'
 set -g @minimal-tmux-status "top"
 set -g @minimal-tmux-fg "#262626"
 set -g @minimal-tmux-bg "#98c379"
-set -g @minimal-tmux-indicator-str " C-a "
+set -g @minimal-tmux-indicator-str "C󱁐"
 
 # Continuum rely on status-right hook or so, so anything modifying that will make autosave not working
 # https://github.com/tmux-plugins/tmux-continuum/issues/48
 # maybe relevant in the future: https://github.com/tmux-plugins/tmux-continuum/issues/24
 set -g @minimal-tmux-status-right-extra "#({{ .tmux_data_dir }}/plugins/tmux-continuum/scripts/continuum_save.sh) #{continuum_status}"
 # set -g @continuum-save-interval '1'
-
 
 # ------ REMOTE TMUX SESSIONS (Nesting)
 
@@ -122,7 +130,6 @@ bind -T off F12 \
 
 if-shell 'test -n "$SSH_CLIENT"' \
     'set -g @minimal-tmux-status-left-extra "-ssh"'
-
 
 # ---------------
 
