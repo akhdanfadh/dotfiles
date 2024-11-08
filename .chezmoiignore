@@ -1,3 +1,8 @@
 {{- if ne .os_id "linux-ubuntu" -}}
 .zshenv
 {{- end -}}
+
+{{- if ne .ubuntu_desktop true -}}
+.config/solaar/
+.config/tiling-assistant/
+{{- end -}}

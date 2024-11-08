@@ -10,17 +10,19 @@
 {{-     end -}}
 {{- end -}}
 
-{{- $git_email := promptString "Git: Default email -> " -}}
-{{- $overleaf_cookies := promptString "Neovim: Overleaf cookies -> " -}}
-{{- $obsidian_vault := promptString "Obsidian: Vault absolute path -> " -}}
+{{- $git_email := promptString "Email for default git commit" -}}
+{{- $ubuntu_desktop := promptBoolOnce . "ubuntu_desktop" "Is this for ubuntu desktop" -}}
+{{- $obsidian_vault := promptStringOnce . "obsidian_vault" "Obsidian vault absolute path for neovim" -}}
+{{- $overleaf_cookies := promptStringOnce . "overleaf_cookies" "Overleaf cookies for neovim" -}}
 
 [data]
     os_id = {{ $os_id | quote }}
     is_wsl = {{ $is_wsl }}
     tmux_data_dir = "{{ .chezmoi.homeDir }}/.local/share/tmux"
     git_email = {{ $git_email | quote }}
-    overleaf_cookies = {{ $overleaf_cookies | quote }}
+    ubuntu_desktop = {{ $ubuntu_desktop }}
     obsidian_vault = {{ $obsidian_vault | quote }}
+    overleaf_cookies = {{ $overleaf_cookies | quote }}
 
 [diff]
     command = "delta"
