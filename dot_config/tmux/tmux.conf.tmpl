@@ -44,7 +44,9 @@ bind -r < swap-pane -U
 bind -r > swap-pane -D
 
 bind -r C-j previous-window
+bind -r -T root M-C-j previous-window
 bind -r C-k next-window
+bind -r -T root M-C-k next-window
 bind -r C-/ last-window
 bind c new-window -c "#{pane_current_path}"
 # this code below makes restoring tmux with resurrect buggy:
