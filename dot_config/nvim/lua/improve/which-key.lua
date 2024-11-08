@@ -42,11 +42,11 @@ return {
 		-- Document existing key chains
 		spec = {
 			{ "<leader>d", group = "Nvim Win[D]ow" },
-			{ "<leader>h", group = "Git [H]unk", mode = { "n", "v" } },
+			{ "<leader>g", group = "[G]it Hunk", mode = { "n", "v" } },
 			{ "<leader>f", group = "[F]ind Telescope" },
 			{ "<leader>l", group = "[L]SP / Format" },
 			{ "<leader>m", group = "[M]iscellanous" },
-			{ "<leader>g", group = "[G]reet Session" },
+			{ "<leader>s", group = "[S]ession" },
 		},
 
 		-- Keybindings
