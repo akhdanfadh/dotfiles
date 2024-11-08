@@ -41,19 +41,18 @@ return {
 
 		-- Document existing key chains
 		spec = {
-			{ "<leader>d", group = "Win[D]ow" },
-			{ "<leader>b", group = "[B]uffer" },
+			{ "<leader>d", group = "Nvim Win[D]ow" },
 			{ "<leader>h", group = "Git [H]unk", mode = { "n", "v" } },
-			{ "<leader>f", group = "[F]ind" },
+			{ "<leader>f", group = "[F]ind Telescope" },
 			{ "<leader>l", group = "[L]SP / Format" },
-			{ "<leader>m", group = "[M]isc" },
-			{ "<leader>s", group = "[S]ession" },
+			{ "<leader>m", group = "[M]iscellanous" },
+			{ "<leader>g", group = "[G]reet Session" },
 		},
 
 		-- Keybindings
 		keys = {
-			scroll_down = "<C-n>",
-			scroll_up = "<C-p>",
+			scroll_down = "<C-j>",
+			scroll_up = "<C-k>",
 		},
 	},
 }
