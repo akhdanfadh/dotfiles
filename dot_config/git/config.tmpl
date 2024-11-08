@@ -1,7 +1,7 @@
 ### MAIN
 [user]
 	name = Akhdan Fadhilah
-	email = akhdan@vision.is.tohoku.ac.jp
+	email = {{ .git_email }}
 	username = akhdanfadh
 [init]
 	# Default branch when initializing a new repository,
@@ -99,3 +99,5 @@
 	# into submodules and applies the same operation. Useful for keeping
 	# submodules in sync.
 	recurse = true
+
+# vim: syntax=toml
