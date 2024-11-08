@@ -13,8 +13,10 @@ if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]
 fi
 ZSH_THEME="powerlevel10k/powerlevel10k"
 
+{{- if eq .chezmoi.os "linux" -}}
 # User local bin (for chezmoi, etc.)
 export PATH=$HOME/bin:$HOME/.local/bin:/usr/local/bin:$PATH
+{{ end }}
 
 # oh-my-zsh configuration
 export ZSH="$HOME/.oh-my-zsh"
@@ -26,13 +28,23 @@ plugins=(
     zsh-autosuggestions
     fast-syntax-highlighting
     zsh-vi-mode
+{{- if eq .os_id "darwin" }}
+    brew
+{{- end }}
     chezmoi
+    conda
+{{- if eq .os_id "linux-ubuntu" }}
     debian
+{{- end }}
+    docker
+    docker-compose
     copypath
     gh
     git
     npm
+    nvm
     pip
+    python
     ssh
     aliases
 )
