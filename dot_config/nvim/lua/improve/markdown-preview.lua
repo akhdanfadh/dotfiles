@@ -15,6 +15,6 @@ return { -- make sure yarn is installed (preferably using npm)
 		vim.g.mkdp_auto_close = 1 -- auto close current preview window when changing buffer
 		vim.g.mkdp_port = 9000 -- custom port to start server or empty for random
 
-		vim.keymap.set({ "n", "i" }, "<leader>mp", "<Plug>MarkdownPreview", { desc = "MKDP: [M]arkdown [P]review" })
+		vim.keymap.set("n", "<leader>mp", "<Plug>MarkdownPreview", { desc = "MKDP: [M]arkdown [P]review" })
 	end,
 }
