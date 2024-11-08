@@ -1,8 +1,9 @@
 # Auto load TMUX
 # https://unix.stackexchange.com/questions/43601/how-can-i-set-my-default-shell-to-start-up-tmux
+# tradeoff: cannot use open in wezterm from finder/nautilus
 if command -v tmux &> /dev/null && [ -n "$PS1" ] && [[ ! "$TERM" =~ screen ]] && [[ ! "$TERM" =~ tmux ]] && [ -z "$TMUX" ]; then
-    # echo "Are you tmuxing?"
-    tmux attach -t main || tmux new -s main
+    printf "-- tmux friendly reminder  --\n"
+    # tmux attach -t main || tmux new -s main
 fi
 
 # Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
@@ -148,7 +149,7 @@ unset __conda_setup
 # <<< conda initialize <<<
 
 # TMUX aliases
-alias tm="tmux"
+alias tma="tmux attach -t main || tmux new -s main"
 alias tmn="tmux new -A -s"  # start new or attach to named session
 alias tml="tmux ls"  # new named session
 alias tmk="tmux kill-session -t"  # terminate named running tmux session
