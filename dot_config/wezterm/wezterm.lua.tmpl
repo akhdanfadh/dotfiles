@@ -37,6 +37,9 @@ config = {
 		top = 15,
 		bottom = 15,
 	},
+	wezterm.on("format-window-title", function()
+		return "WezTerm"
+	end),
 	max_fps = 100, -- smoother experience, consume more power
 
 	-- >>> Keybindings
