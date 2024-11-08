@@ -81,16 +81,16 @@ return {
 			-- But I'm not and `hjkl` is my go-to
 			mapping = cmp.mapping.preset.insert({
 				-- Select the next item
-				-- ["<C-j>"] = cmp.mapping.select_next_item(),
+				["<C-j>"] = cmp.mapping.select_next_item(),
 				--['<Tab>'] = cmp.mapping.select_next_item(),
 
 				-- Select the previous item
-				-- ["<C-k>"] = cmp.mapping.select_prev_item(),
+				["<C-k>"] = cmp.mapping.select_prev_item(),
 				--['<S-Tab>'] = cmp.mapping.select_prev_item(),
 
 				-- Scroll the documentation window back/forward
-				-- ["<c-p>"] = cmp.mapping.scroll_docs(-4),
-				-- ["<c-n>"] = cmp.mapping.scroll_docs(4),
+				["<c-p>"] = cmp.mapping.scroll_docs(-4),
+				["<c-n>"] = cmp.mapping.scroll_docs(4),
 
 				-- Accept the completion.
 				--  This will auto-import if your LSP supports it.
@@ -104,12 +104,12 @@ return {
 				-- ["<C-Space>"] = cmp.mapping.complete({}),
 
 				-- Move to next/previous of the snippet expansion locations.
-				["<C-l>"] = cmp.mapping(function()
+				["<C-n>"] = cmp.mapping(function()
 					if luasnip.expand_or_locally_jumpable() then
 						luasnip.expand_or_jump()
 					end
 				end, { "i", "s" }),
-				["<C-h>"] = cmp.mapping(function()
+				["<C-p>"] = cmp.mapping(function()
 					if luasnip.locally_jumpable(-1) then
 						luasnip.jump(-1)
 					end
@@ -146,30 +146,30 @@ return {
 
 		-- Use buffer source for `/` and `?` (if you enabled `native_menu`, this won't work anymore).
 		cmp.setup.cmdline({ "/", "?" }, {
-			mapping = cmp.mapping.preset.cmdline(),
-			-- mapping = cmp.mapping.preset.cmdline({
-			-- 	["<C-n>"] = {
-			-- 		c = function(fallback)
-			-- 			if cmp.visible() then
-			-- 				cmp.select_next_item()
-			-- 			else
-			-- 				fallback()
-			-- 			end
-			-- 		end,
-			-- 	},
-			-- 	["<C-p>"] = {
-			-- 		c = function(fallback)
-			-- 			if cmp.visible() then
-			-- 				cmp.select_prev_item()
-			-- 			else
-			-- 				fallback()
-			-- 			end
-			-- 		end,
-			-- 	},
-			-- 	["<C-y>"] = {
-			-- 		c = cmp.mapping.confirm({ select = false }),
-			-- 	},
-			-- }),
+			-- mapping = cmp.mapping.preset.cmdline(),
+			mapping = cmp.mapping.preset.cmdline({
+				["<C-j>"] = {
+					c = function(fallback)
+						if cmp.visible() then
+							cmp.select_next_item()
+						else
+							fallback()
+						end
+					end,
+				},
+				["<C-k>"] = {
+					c = function(fallback)
+						if cmp.visible() then
+							cmp.select_prev_item()
+						else
+							fallback()
+						end
+					end,
+				},
+				["<C-y>"] = {
+					c = cmp.mapping.confirm({ select = false }),
+				},
+			}),
 			sources = {
 				{ name = "buffer" },
 			},
@@ -177,30 +177,30 @@ return {
 
 		-- Use cmdline & path source for ':' (if you enabled `native_menu`, this won't work anymore).
 		cmp.setup.cmdline(":", {
-			mapping = cmp.mapping.preset.cmdline(),
-			-- mapping = cmp.mapping.preset.cmdline({
-			-- 	["<C-n>"] = {
-			-- 		c = function(fallback)
-			-- 			if cmp.visible() then
-			-- 				cmp.select_next_item()
-			-- 			else
-			-- 				fallback()
-			-- 			end
-			-- 		end,
-			-- 	},
-			-- 	["<C-p>"] = {
-			-- 		c = function(fallback)
-			-- 			if cmp.visible() then
-			-- 				cmp.select_prev_item()
-			-- 			else
-			-- 				fallback()
-			-- 			end
-			-- 		end,
-			-- 	},
-			-- 	["<C-y>"] = {
-			-- 		c = cmp.mapping.confirm({ select = false }),
-			-- 	},
-			-- }),
+			-- mapping = cmp.mapping.preset.cmdline(),
+			mapping = cmp.mapping.preset.cmdline({
+				["<C-j>"] = {
+					c = function(fallback)
+						if cmp.visible() then
+							cmp.select_next_item()
+						else
+							fallback()
+						end
+					end,
+				},
+				["<C-k>"] = {
+					c = function(fallback)
+						if cmp.visible() then
+							cmp.select_prev_item()
+						else
+							fallback()
+						end
+					end,
+				},
+				["<C-y>"] = {
+					c = cmp.mapping.confirm({ select = false }),
+				},
+			}),
 			sources = cmp.config.sources({
 				{ name = "path" },
 			}, {
