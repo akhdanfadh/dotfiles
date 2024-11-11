@@ -48,6 +48,7 @@ return {
 			{ "<leader>m", group = "[M]iscellanous" },
 			{ "<leader>s", group = "[S]ession" },
 			{ "<leader>o", group = "[O]bsidian" },
+			{ "<leader>a", group = "[A]vante" },
 		},
 
 		-- Keybindings

@@ -49,6 +49,7 @@ require("lazy").setup({
 	require("integrate.overleaf"), -- Overleaf buffer in neovim
 	require("integrate.firenvim"), -- Turn your browser into a neovim client
 	require("integrate.leetcode"), -- Solve LeetCode problems within Neovim
+	require("integrate.avante"), -- AI driven development
 
 	-- QUALITY OF LIFE
 	require("improve.sudo"), -- Read or write files with sudo command

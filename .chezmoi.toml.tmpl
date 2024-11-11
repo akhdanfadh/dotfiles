@@ -12,8 +12,9 @@
 
 {{- $git_email := promptString "Email for default git commit" -}}
 {{- $ubuntu_desktop := promptBoolOnce . "ubuntu_desktop" "Is this for ubuntu desktop" -}}
-{{- $obsidian_vault := promptStringOnce . "obsidian_vault" "Obsidian vault absolute path for neovim" -}}
-{{- $overleaf_cookies := promptStringOnce . "overleaf_cookies" "Overleaf cookies for neovim" -}}
+{{- $anthropic_api_key := promptStringOnce . "anthropic_api_key" "Anthropic API key (for neovim)" -}}
+{{- $obsidian_vault := promptStringOnce . "obsidian_vault" "Obsidian vault absolute path (for neovim)" -}}
+{{- $overleaf_cookies := promptStringOnce . "overleaf_cookies" "Overleaf cookies (for neovim)" -}}
 
 [data]
     os_id = {{ $os_id | quote }}
@@ -21,6 +22,7 @@
     tmux_data_dir = "{{ .chezmoi.homeDir }}/.local/share/tmux"
     git_email = {{ $git_email | quote }}
     ubuntu_desktop = {{ $ubuntu_desktop }}
+    anthropic_api_key = {{ $anthropic_api_key | quote }}
     obsidian_vault = {{ $obsidian_vault | quote }}
     overleaf_cookies = {{ $overleaf_cookies | quote }}
 
