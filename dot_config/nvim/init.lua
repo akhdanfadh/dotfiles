@@ -50,6 +50,7 @@ require("lazy").setup({
 	require("integrate.firenvim"), -- Turn your browser into a neovim client
 	require("integrate.leetcode"), -- Solve LeetCode problems within Neovim
 	require("integrate.avante"), -- AI driven development
+	require("integrate.chatgpt"), -- ChatGPT integration
 
 	-- QUALITY OF LIFE
 	require("improve.sudo"), -- Read or write files with sudo command

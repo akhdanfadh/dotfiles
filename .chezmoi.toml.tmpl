@@ -13,6 +13,7 @@
 {{- $git_email := promptString "Email for default git commit" -}}
 {{- $ubuntu_desktop := promptBoolOnce . "ubuntu_desktop" "Is this for ubuntu desktop" -}}
 {{- $anthropic_api_key := promptStringOnce . "anthropic_api_key" "Anthropic API key (for neovim)" -}}
+{{- $openai_api_key := promptStringOnce . "openai_api_key" "OpenAI API key (for neovim)" -}}
 {{- $obsidian_vault := promptStringOnce . "obsidian_vault" "Obsidian vault absolute path (for neovim)" -}}
 {{- $overleaf_cookies := promptStringOnce . "overleaf_cookies" "Overleaf cookies (for neovim)" -}}
 
@@ -23,6 +24,7 @@
     git_email = {{ $git_email | quote }}
     ubuntu_desktop = {{ $ubuntu_desktop }}
     anthropic_api_key = {{ $anthropic_api_key | quote }}
+    openai_api_key = {{ $openai_api_key | quote }}
     obsidian_vault = {{ $obsidian_vault | quote }}
     overleaf_cookies = {{ $overleaf_cookies | quote }}
 
