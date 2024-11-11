@@ -52,6 +52,7 @@ require("lazy").setup({
 
 	-- QUALITY OF LIFE
 	require("improve.sudo"), -- Read or write files with sudo command
+	-- require("improve.noice"), -- Replace UI for messages, cmdline, and popupmenu
 	require("improve.which-key"), -- Show pending keybinds as popup
 	require("improve.autopairs"), -- Autoclose brackets with custom rules
 	-- require("improve.tabout"), -- TabOut like VSCode
