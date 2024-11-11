@@ -59,6 +59,7 @@ return {
 		close_if_last_window = true, -- Close Neo-tree if it is the last window left in the tab
 
 		window = {
+			position = "right",
 			width = 30, -- Neo-tree windows width
 			mappings = { -- Open file without losing sidebar focus with TAB
 				["<tab>"] = function(state)
