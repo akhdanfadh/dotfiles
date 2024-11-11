@@ -33,7 +33,7 @@ return {
 		--     VISUAL mode: >
 
 		-- Manually set default mappings
-		vim.keymap.set("i", "<cr>", "<Plug>(bullets-newline)", { noremap = true, silent = true })
+		vim.keymap.set("i", "<CR>", "<Plug>(bullets-newline)", { noremap = true, silent = true })
 		-- vim.keymap.set("n", "o", "<Plug>(bullets-newline)", { noremap = true, silent = true })
 		-- vim.keymap.set("v", "gN", "<Plug>(bullets-renumber)", { noremap = true, silent = true })
 		-- vim.keymap.set("n", "gN", "<Plug>(bullets-renumber)", { noremap = true, silent = true })
