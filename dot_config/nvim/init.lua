@@ -62,6 +62,7 @@ require("lazy").setup({
 	require("improve.todo-comments"), -- Highlight TODO, FIXME, etc.
 	-- require("improve.mini"), -- Mini plugins bundled together to improve QOL
 	require("improve.bullets"), -- Automatic bulleting, useful in markdown
+	-- require("improve.autolist"), -- Automatic bulleting as well, work well with autopairs
 	require("improve.markdown"), -- Configurable tools for working with MD files
 	require("improve.markdown-preview"), -- Preview markdown in browser
 })
