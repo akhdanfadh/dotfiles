@@ -34,14 +34,16 @@ plugins=(
 {{- end }}
     chezmoi
     conda
+    copypath
 {{- if eq .os_id "linux-ubuntu" }}
     debian
 {{- end }}
     docker
     docker-compose
-    copypath
+    eza
     gh
     git
+    gitfast
     npm
     nvm
     pip
@@ -61,9 +63,17 @@ function zvm_config() {
 # zsh-autosuggestions config
 ZSH_AUTOSUGGEST_STRATEGY=(history completion)
 
+# eza plugin config
+zstyle ':omz:plugins:eza' 'dirs-first' yes
+zstyle ':omz:plugins:eza' 'git-status' yes
+zstyle ':omz:plugins:eza' 'icons' yes
+
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 source $ZSH/oh-my-zsh.sh
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+# eza completion
+export FPATH="$HOME/bin/eza/completions/zsh:$FPATH"
 
 # >>> KEYBINDINGS >>>
 # Reset history key bindings to Zsh default and vim normal mode
@@ -147,6 +157,10 @@ else
 fi
 unset __conda_setup
 # <<< conda initialize <<<
+
+# Ruby environment manager, see https://github.com/rbenv/rbenv#how-rbenv-hooks-into-your-shell
+RBENV_DIR="$HOME/.rbenv"
+[ -d "$RBENV_DIR" ] && eval "$($RBENV_DIR/bin/rbenv init - --no-rehash zsh)"
 
 # TMUX aliases
 alias tma="tmux attach -t main || tmux new -s main"
