@@ -47,6 +47,7 @@ return {
 			{ "<leader>l", group = "[L]SP / Format" },
 			{ "<leader>m", group = "[M]iscellanous" },
 			{ "<leader>s", group = "[S]ession" },
+			{ "<leader>o", group = "[O]bsidian" },
 		},
 
 		-- Keybindings

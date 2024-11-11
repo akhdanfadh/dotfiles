@@ -214,6 +214,12 @@ return {
 			-- Specify how to handle attachments.
 			-- Open obsidian instead, no workaround on pasting image to WSL
 		})
+
+        -- leader key mappings
+        vim.keymap.set("n", "<leader>on", ":ObsidianNew ", { desc = "Create a new note" })
+        vim.keymap.set("n", "<leader>oo", ":ObsidianQuickSwitch<CR>", { desc = "Quick switch and search notes" })
+        vim.keymap.set("n", "<leader>of", ":ObsidianSearch ", { desc = "Search with word query" })
+        vim.keymap.set("n", "<leader>ob", ":ObsidianOpen<CR>", { desc = "Open this in Obsidian app" })
 	end,
 }
 
