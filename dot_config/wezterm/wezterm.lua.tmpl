@@ -51,9 +51,11 @@ config = {
 
 		-- These are all default keybindings that I intuitively use
 		{ key = "c", mods = "SHIFT|CTRL", action = act.CopyTo("Clipboard") },
-		{ key = "Insert", mods = "CTRL", action = act.CopyTo("PrimarySelection") },
+		-- { key = "Insert", mods = "CTRL", action = act.CopyTo("PrimarySelection") },
+		{ key = "Insert", mods = "CTRL", action = act.CopyTo("Clipboard") },
 		{ key = "v", mods = "SHIFT|CTRL", action = act.PasteFrom("Clipboard") },
-		{ key = "Insert", mods = "SHIFT", action = act.PasteFrom("PrimarySelection") },
+		-- { key = "Insert", mods = "SHIFT", action = act.PasteFrom("PrimarySelection") },
+		{ key = "Insert", mods = "SHIFT", action = act.PasteFrom("Clipboard") },
 
 		{ key = "+", mods = "CTRL", action = act.IncreaseFontSize },
 		{ key = "-", mods = "CTRL", action = act.DecreaseFontSize },
@@ -68,10 +70,13 @@ config = {
 		{ key = "Space", mods = "SHIFT|CTRL", action = act.QuickSelect },
 		{ key = "PageUp", mods = "SHIFT", action = act.ScrollByPage(-1) },
 		{ key = "PageDown", mods = "SHIFT", action = act.ScrollByPage(1) },
+
+        -- Misc
+        { key = 'Backspace', mods = 'CTRL', action = act.SendKey {key = 'w', mods = 'CTRL'} },
 	},
 }
 
 -- Return the configuration to wezterm
 return config
 
--- vim: syntax=lua
+-- vim: syntax=lua commentstring=--\ %s
