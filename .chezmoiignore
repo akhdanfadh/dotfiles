@@ -1,8 +1,6 @@
-{{- if ne .os_id "linux-ubuntu" -}}
-.zshenv
-{{- end -}}
-
 {{- if ne .ubuntu_desktop true -}}
 .config/solaar/
+.config/Stretchly/
 .config/tiling-assistant/
+.config/wezterm/
 {{- end -}}

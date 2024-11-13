@@ -1,2 +1,5 @@
+{{ if eq .os_id "linux-ubuntu" -}}
 skip_global_compinit=1
+{{- end }}
+
 . "$HOME/.cargo/env"
