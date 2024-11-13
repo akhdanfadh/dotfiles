@@ -1,0 +1,10 @@
+{{- if eq .os_id "linux-ubuntu" -}}
+# omz zsh-autocompletion ubuntu requirement
+skip_global_compinit=1
+
+{{ end -}}
+
+{{ if stat (joinPath .chezmoi.homeDir ".cargo") -}}
+. "$HOME/.cargo/env"
+
+{{ end -}}

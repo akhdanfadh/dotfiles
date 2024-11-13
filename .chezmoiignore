@@ -1,6 +1,0 @@
-{{- if ne .ubuntu_desktop true -}}
-.config/solaar/
-.config/Stretchly/
-.config/tiling-assistant/
-.config/wezterm/
-{{- end -}}
