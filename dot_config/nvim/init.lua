@@ -60,6 +60,7 @@ require("lazy").setup({
 	-- require("improve.tabout"), -- TabOut like VSCode
 	require("improve.neotab"), -- Another TabOut like VSCode
 	require("improve.surround"), -- Better surround shortcut
+	require("improve.fold"), -- Make neovim's fold look modern and high-performance
 	require("improve.guess-indent"), -- Auto set indentation
 	require("improve.treesj"), -- Split/join blocks of code
 	require("improve.todo-comments"), -- Highlight TODO, FIXME, etc.
