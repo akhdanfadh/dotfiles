@@ -1,3 +1,5 @@
+{{- $tmux_data_dir := joinPath .chezmoi.homeDir ".local/share/tmux" -}}
+
 # ------ GENERAL
 
 # set -g default-terminal "xterm-256color"
@@ -28,7 +30,7 @@ set -g prefix C-Space
 bind C-Space send-prefix  # press C-a twice to send on nested tmux sessions
 
 bind : command-prompt
-bind ? list-keys
+bind ? list-keys -T prefix
 bind d detach-client
 bind t choose-tree -Zw
 
@@ -36,7 +38,7 @@ bind p display-panes
 bind s split-window -v -c "#{pane_current_path}"
 bind v split-window -h -c "#{pane_current_path}"
 bind M break-pane
-bind q confirm kill-pane
+bind x confirm kill-pane
 
 bind -r m resize-pane -Z
 bind -r j resize-pane -D 2
@@ -56,7 +58,7 @@ bind c new-window -c "#{pane_current_path}"
 # need to press enter multiple times while the statusbar only showing "Restoring..."
 # set-hook -g after-new-window 'command-prompt -I "#{window_name}" "rename-window '%%'"
 bind r command-prompt -I'#W' { rename-window -- '%%' }
-bind Q confirm kill-window
+bind X confirm kill-window
 
 bind C command-prompt -p "Session name:" "new-session -s '%1'"
 bind R command-prompt -I'#S' { rename-session -- '%%' }
@@ -80,7 +82,7 @@ bind -T copy-mode-vi L send -X end-of-line
 
 # ------ PLUGINS
 
-set-environment -g TMUX_PLUGIN_MANAGER_PATH '{{ .tmux_data_dir }}/plugins'
+set-environment -g TMUX_PLUGIN_MANAGER_PATH '{{ $tmux_data_dir }}/plugins'
 
 # tpm set `bind I install-plugins`
 set -g @plugin "tmux-plugins/tpm"  # our plugin manager
@@ -95,7 +97,7 @@ set -g @vim_navigator_mapping_prev "M-/"
 
 # resurrect use prefix + C-s/C-r to save/restore
 set -g @plugin 'tmux-plugins/tmux-resurrect'  # persist tmux env across system restarts
-set -g @resurrect-dir "{{ .tmux_data_dir }}/resurrect-files"  # save resurrect data here
+set -g @resurrect-dir "{{ $tmux_data_dir }}/resurrect-files"  # save resurrect data here
 set -g @resurrect-capture-pane-contents 'on'  # save pane contents
 set -g @resurrect-strategy-nvim 'session'  # save nvim session
 
@@ -111,7 +113,7 @@ set -g @minimal-tmux-indicator-str "C󱁐"
 # Continuum rely on status-right hook or so, so anything modifying that will make autosave not working
 # https://github.com/tmux-plugins/tmux-continuum/issues/48
 # maybe relevant in the future: https://github.com/tmux-plugins/tmux-continuum/issues/24
-set -g @minimal-tmux-status-right-extra "#({{ .tmux_data_dir }}/plugins/tmux-continuum/scripts/continuum_save.sh) #{continuum_status}"
+set -g @minimal-tmux-status-right-extra "#({{ $tmux_data_dir }}/plugins/tmux-continuum/scripts/continuum_save.sh) #{continuum_status}"
 # set -g @continuum-save-interval '1'
 
 # ------ REMOTE TMUX SESSIONS (Nesting)
@@ -140,9 +142,9 @@ if-shell 'test -n "$SSH_CLIENT"' \
 
 # ---------------
 
-if-shell "test ! -d {{ .tmux_data_dir }}/plugins/tpm" \
-    "run-shell 'git clone https://github.com/tmux-plugins/tpm {{ .tmux_data_dir }}/plugins/tpm && {{ .tmux_data_dir }}/plugins/tpm/bin/install_plugins'"
-run-shell "{{ .tmux_data_dir }}/plugins/tpm/bin/update_plugins all"
-run-shell "{{ .tmux_data_dir }}/plugins/tpm/tpm"
+if-shell "test ! -d {{ $tmux_data_dir }}/plugins/tpm" \
+    "run-shell 'git clone https://github.com/tmux-plugins/tpm {{ $tmux_data_dir }}/plugins/tpm && {{ $tmux_data_dir }}/plugins/tpm/bin/install_plugins'"
+run-shell "{{ $tmux_data_dir }}/plugins/tpm/bin/update_plugins all"
+run-shell "{{ $tmux_data_dir }}/plugins/tpm/tpm"
 
-# vim: syntax=tmux commentstring=#\ %s
+{{- /* vim: set filetype=tmux: */ -}}
