@@ -52,7 +52,7 @@ return {
 	end,
 
 	keys = { -- Open Neotree with `\`
-		{ "<leader>e", ":Neotree reveal<CR>", desc = "[e]xplore file", silent = true },
+		{ "<leader>e", ":Neotree reveal<CR>", desc = "Toggle explorer", silent = true },
 	},
 
 	opts = {

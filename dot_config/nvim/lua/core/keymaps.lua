@@ -38,8 +38,8 @@ vim.keymap.set({ "n", "o" }, "L", "$")
 -- Swap two lines
 vim.keymap.set("v", "<A-j>", ":m '>+1<CR>gv=gv", opts)
 vim.keymap.set("v", "<A-k>", ":m '<-2<CR>gv=gv", opts)
-vim.keymap.set("i", "<A-j>", "<Esc>:m .+1<CR>==gi", opts)
-vim.keymap.set("i", "<A-k>", "<Esc>:m .-2<CR>==gi", opts)
+-- vim.keymap.set("i", "<A-j>", "<Esc>:m .+1<CR>==gi", opts)
+-- vim.keymap.set("i", "<A-k>", "<Esc>:m .-2<CR>==gi", opts)
 -- <Esc> then j is the same as <Alt-j> in many terminal, so disabling this
 -- Or alternatively, if using tmux, `set -sg escape-time 10`
 -- Recent changes I decide to use Alt for vim-tmux-navigator
@@ -75,10 +75,10 @@ vim.keymap.set("n", "x", '"_x', opts)
 vim.keymap.set("v", "p", '"_dP', opts)
 
 -- Window management
-leader_map("n", "<leader>dv", "<C-w>v", "win[d]ow split [v]ertically")
-leader_map("n", "<leader>ds", "<C-w>s", "win[d]ow [s]plit horizontally")
-leader_map("n", "<leader>de", "<C-w>=", "win[d]ow split [e]qually")
-leader_map("n", "<leader>dq", ":close<CR>", "win[d]ow [q]uit this")
+leader_map("n", "<leader>dv", "<C-w>v", "split window [v]ertically")
+leader_map("n", "<leader>ds", "<C-w>s", "[s]plit window horizontally")
+leader_map("n", "<leader>de", "<C-w>=", "split window [e]qually")
+leader_map("n", "<leader>dq", ":close<CR>", "[q]uit this window")
 -- Navigate between window
 -- This already configured in vim-tmux-navigator plugin
 -- leader_map("n", "<leader>dk", ":wincmd k<CR>", "win[d]ow go up")
@@ -89,7 +89,7 @@ leader_map("n", "<leader>dq", ":close<CR>", "win[d]ow [q]uit this")
 -- Buffers, our actual "tabs" (using bufferline)
 -- vim.keymap.set("n", "<C-i>", ":bnext<CR>", opts)
 -- vim.keymap.set("n", "<C-u>", ":bprevious<CR>", opts)
-leader_map("n", "<leader>q", ":bdelete<CR>", "[q]uit buffer")
-leader_map("n", "<leader>w", ":w<CR>", "[w]rite buffer")
-leader_map("n", "<leader>n", "<cmd> enew <CR>", "[n]ew buffer")
+leader_map("n", "<leader>x", ":bdelete<CR>", "Close this buffer")
+leader_map("n", "<leader>w", ":w<CR>", "Save this buffer")
+leader_map("n", "<leader>n", "<cmd> enew <CR>", "New buffer")
 -- leader_map("n", "<leader>Q", ":%bd|e#|bd#<CR>", "[Q]uit all buffer except this")

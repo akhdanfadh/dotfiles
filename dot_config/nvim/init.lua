@@ -24,22 +24,21 @@ require("lazy").setup({
 	require("core.cmp-config"), -- Autocompletion holy setup
 	require("core.lsp-config"), -- Language Server Protocol holy setup
 	require("core.conform"), -- Autoformatting / format on save
-	-- require("core.none-ls"), -- Another autoformatting: null-ls wrapper
-	-- require("core.debug-config") -- Debugging plugins
 	require("core.flash"), -- Easy teleport anywhere
+	-- require("archived.none-ls"), -- Another autoformatting: null-ls wrapper
 
 	-- APPEARANCE
-	-- require("visual.catppuccin"), -- Colorscheme very popular
-	-- require("visual.nightfox") -- Colorscheme backup
 	require("visual.bufferline"), -- Show buffers as tabs
 	require("visual.lualine"), -- Configurable status line in bottom
 	require("visual.startify"), -- Greeter screen with session feature
-	-- require("visual.starter-mini"), -- Mini greeter screen
-	-- require("visual.alpha"), -- Themeable greeter screen
 	require("visual.indent-blankline"), -- Add indentation guides (lines)
 	require("visual.colorizer"), -- Inline RGB color
 	require("visual.stay-centered"), -- Keeps your cursor at the center
 	require("visual.notify"), -- Fancy configurable notification manager
+	-- require("archived.catppuccin"), -- Colorscheme very popular
+	-- require("archived.nightfox") -- Colorscheme backup
+	-- require("archived.starter-mini"), -- Mini greeter screen
+	-- require("archived.alpha"), -- Themeable greeter screen
 
 	-- INTEGRATION
 	require("integrate.tmux"), -- Better tmux navigation
@@ -55,19 +54,19 @@ require("lazy").setup({
 
 	-- QUALITY OF LIFE
 	require("improve.sudo"), -- Read or write files with sudo command
-	-- require("improve.noice"), -- Replace UI for messages, cmdline, and popupmenu
 	require("improve.which-key"), -- Show pending keybinds as popup
 	require("improve.autopairs"), -- Autoclose brackets with custom rules
-	-- require("improve.tabout"), -- TabOut like VSCode
-	require("improve.neotab"), -- Another TabOut like VSCode
+	require("improve.neotab"), -- TabOut like VSCode
 	require("improve.surround"), -- Better surround shortcut
 	require("improve.fold"), -- Make neovim's fold look modern and high-performance
 	require("improve.guess-indent"), -- Auto set indentation
 	require("improve.treesj"), -- Split/join blocks of code
 	require("improve.todo-comments"), -- Highlight TODO, FIXME, etc.
-	-- require("improve.mini"), -- Mini plugins bundled together to improve QOL
 	require("improve.bullets"), -- Automatic bulleting, useful in markdown
-	-- require("improve.autolist"), -- Automatic bulleting as well, work well with autopairs
 	require("improve.markdown"), -- Configurable tools for working with MD files
 	require("improve.markdown-preview"), -- Preview markdown in browser
+	-- require("archived.noice"), -- Replace UI for messages, cmdline, and popupmenu
+	-- require("archived.tabout"), -- TabOut like VSCode
+	-- require("archived.mini"), -- Mini plugins bundled together to improve QOL
+	-- require("archived.autolist"), -- Automatic bulleting as well, work well with autopairs
 })
