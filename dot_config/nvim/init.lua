@@ -16,8 +16,19 @@ vim.opt.rtp:prepend(lazypath)
 -- Our never-ending plugins
 require("lazy").setup({
 
-	-- APPEARANCE
+	-- CORE
 	require("visual.onedark"), -- Colorscheme default
+	require("core.neo-tree"), -- Intuitive file explorer
+	require("core.treesitter"), -- Grammar: Highlight, edit, and navigate code
+	require("core.telescope"), -- Fuzzy finder (files, lsp, etc.)
+	require("core.cmp-config"), -- Autocompletion holy setup
+	require("core.lsp-config"), -- Language Server Protocol holy setup
+	require("core.conform"), -- Autoformatting / format on save
+	-- require("core.none-ls"), -- Another autoformatting: null-ls wrapper
+	-- require("core.debug-config") -- Debugging plugins
+	require("core.flash"), -- Easy teleport anywhere
+
+	-- APPEARANCE
 	-- require("visual.catppuccin"), -- Colorscheme very popular
 	-- require("visual.nightfox") -- Colorscheme backup
 	require("visual.bufferline"), -- Show buffers as tabs
@@ -28,17 +39,7 @@ require("lazy").setup({
 	require("visual.indent-blankline"), -- Add indentation guides (lines)
 	require("visual.colorizer"), -- Inline RGB color
 	require("visual.stay-centered"), -- Keeps your cursor at the center
-
-	-- CORE
-	require("core.neo-tree"), -- Intuitive file explorer
-	require("core.treesitter"), -- Grammar: Highlight, edit, and navigate code
-	require("core.telescope"), -- Fuzzy finder (files, lsp, etc.)
-	require("core.cmp-config"), -- Autocompletion holy setup
-	require("core.lsp-config"), -- Language Server Protocol holy setup
-	require("core.conform"), -- Autoformatting / format on save
-	-- require("core.none-ls"), -- Another autoformatting: null-ls wrapper
-	-- require("core.debug-config") -- Debugging plugins
-	require("core.flash"), -- Easy teleport anywhere
+	require("visual.notify"), -- Fancy configurable notification manager
 
 	-- INTEGRATION
 	require("integrate.tmux"), -- Better tmux navigation
