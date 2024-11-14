@@ -96,8 +96,10 @@ ZSH_AUTOSUGGEST_STRATEGY=(history completion)
 zstyle ':omz:plugins:eza' 'dirs-first' yes
 zstyle ':omz:plugins:eza' 'git-status' yes
 zstyle ':omz:plugins:eza' 'icons' yes
+{{ if and (eq .chezmoi.os "linux") (stat (joinPath .chezmoi.homeDir "bin/eza")) -}}
 # eza completion
 export FPATH="$HOME/bin/eza/completions/zsh:$FPATH"
+{{- end }}
 
 {{ end -}}
 
@@ -162,12 +164,20 @@ export LC_TIME=en_GB.UTF-8
 export LC_PAPER=en_GB.UTF-8
 export LC_MEASUREMENT=en_GB.UTF-8
 
-{{ if lookPath "nvim" -}}
-# Neovim path
+{{ if and (eq .chezmoi.os "linux") (stat "/opt/nvim-linux64/") -}}
+# Neovim configuration
 export PATH="/opt/nvim-linux64/bin:$PATH"
+export NVIM_APPNAME={{ .nvim_appname }}
 export EDITOR="nvim"
-alias v="NVIM_APPNAME={{ .nvim_appname }} nvim"
-alias vr="NVIM_APPNAME={{ .nvim_appname }} nvim -R"
+alias v="nvim"
+alias vr="nvim -R"
+
+{{ else if and (eq .chezmoi.os "darwin") (lookPath "nvim") -}}
+# Neovim configuration
+export NVIM_APPNAME={{ .nvim_appname }}
+export EDITOR="nvim"
+alias v="nvim"
+alias vr="nvim -R"
 
 {{ end -}}
 
