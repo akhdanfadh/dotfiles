@@ -1,0 +1,11 @@
+{{- if not (or (eq .os_id "linux-ubuntu") (eq .os_id "darwin")) -}}
+
+#!/bin/bash
+
+set -eufo pipefail
+echo "Error: This chezmoi dotfiles only supports Ubuntu and macOS."
+exit 1
+
+{{- end -}}
+
+{{- /* vim: set filetype=sh: */ -}}

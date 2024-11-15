@@ -18,7 +18,7 @@ fi
 
 {{ if eq .chezmoi.os "linux" -}}
 # User local bin (for chezmoi, etc.)
-export PATH=$HOME/bin:$HOME/.local/bin:/usr/local/bin:$PATH
+export PATH=$HOME/.local/bin:$PATH
 
 {{ end -}}
 
@@ -40,7 +40,7 @@ plugins=(
 {{- if stat (joinPath $zsh_custom "zsh-autocomplete") }}
     zsh-autocomplete
 {{- end }}
-{{- if stat (joinPath $zsh_custom "conda-zsh-completion") }}
+{{- if and (stat (joinPath $zsh_custom "conda-zsh-completion")) (lookPath "conda") }}
     conda-zsh-completion  # completion: DOPE
 {{- end }}
 {{- if stat (joinPath $zsh_custom "zsh-autosuggestions") }}
@@ -71,6 +71,9 @@ plugins=(
 {{- if lookPath "eza" }}
     eza  # invoke eza rather ls, and alias
 {{- end }}
+{{- if lookPath "fzf" }}
+    fzf  # function
+{{- end }}
 {{- if lookPath "gh" }}
     gh  # completion gh cli: DOPE
 {{- end }}
@@ -83,12 +86,13 @@ plugins=(
 {{- if lookPath "rbw" }}
     rbw  # completion and function: DOPE
 {{- end }}
-{{- if or (or (lookPath "rustc") lookPath "rustup") lookPath "cargo" }}
+{{- if or (or (lookPath "rustc") (lookPath "rustup")) (lookPath "cargo") }}
     rust  # completion rustc, rustup, cargo: DOPE
 {{- end }}
     ssh  # completion and function: DOPE
     # tmux  # NOPE, messed up tmux config and nesting
     aliases  # function
+    z  # frecency directories
 )
 
 # zsh-vi-mode config
@@ -107,9 +111,9 @@ ZSH_AUTOSUGGEST_STRATEGY=(history completion)
 zstyle ':omz:plugins:eza' 'dirs-first' yes
 zstyle ':omz:plugins:eza' 'git-status' yes
 zstyle ':omz:plugins:eza' 'icons' yes
-{{ if and (eq .chezmoi.os "linux") (stat (joinPath .chezmoi.homeDir "bin/eza")) -}}
+{{ if and (eq .chezmoi.os "linux") (stat (joinPath .chezmoi.homeDir ".zsh/completions/eza")) -}}
 # eza completion
-export FPATH="$HOME/bin/eza/completions/zsh:$FPATH"
+export FPATH="$HOME/.zsh/completions/eza/completions/zsh:$FPATH"
 {{- end }}
 
 {{ end -}}
@@ -175,15 +179,7 @@ export LC_TIME=en_GB.UTF-8
 export LC_PAPER=en_GB.UTF-8
 export LC_MEASUREMENT=en_GB.UTF-8
 
-{{ if and (eq .chezmoi.os "linux") (stat "/opt/nvim-linux64/") -}}
-# Neovim configuration
-export PATH="/opt/nvim-linux64/bin:$PATH"
-export NVIM_APPNAME={{ .nvim_appname }}
-export EDITOR="nvim"
-alias v="nvim"
-alias vr="nvim -R"
-
-{{ else if and (eq .chezmoi.os "darwin") (lookPath "nvim") -}}
+{{ if lookPath "nvim" -}}
 # Neovim configuration
 export NVIM_APPNAME={{ .nvim_appname }}
 export EDITOR="nvim"
@@ -192,17 +188,17 @@ alias vr="nvim -R"
 
 {{ end -}}
 
-{{ if stat (joinPath .chezmoi.homeDir "miniconda3") -}}
+{{ if stat (joinPath .chezmoi.homeDir ".miniconda3") -}}
 # >>> conda initialize >>>
 # !! Contents within this block are managed by 'conda init' !!
-__conda_setup="$('$HOME/miniconda3/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
+__conda_setup="$('{{ .chezmoi.homeDir }}/.miniconda3/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
 if [ $? -eq 0 ]; then
     eval "$__conda_setup"
 else
-    if [ -f "$HOME/miniconda3/etc/profile.d/conda.sh" ]; then
-        . "$HOME/miniconda3/etc/profile.d/conda.sh"
+    if [ -f "{{ .chezmoi.homeDir }}/.miniconda3/etc/profile.d/conda.sh" ]; then
+        . "{{ .chezmoi.homeDir }}/.miniconda3/etc/profile.d/conda.sh"
     else
-        export PATH="$HOME/miniconda3/bin:$PATH"
+        export PATH="{{ .chezmoi.homeDir }}/.miniconda3/bin:$PATH"
     fi
 fi
 unset __conda_setup
@@ -219,12 +215,12 @@ RBENV_DIR="$HOME/.rbenv"
 
 {{ if lookPath "tmux" -}}
 # TMUX aliases
-alias tma="tmux attach -t main || tmux new -s main"
-alias tmn="tmux new -A -s"  # start new or attach to named session
-alias tml="tmux ls"  # new named session
-alias tmk="tmux kill-session -t"  # terminate named running tmux session
-alias tms="tmux source $HOME/.config/tmux/tmux.conf"  # terminate named running tmux session
-alias tmka="tmux kill-server"  # terminall all tmux sessions
+alias tma="tmux new-session -A -s"  # start new or attach to named session
+alias tmls="tmux list-sessions"
+alias tms="tmux source $HOME/.config/tmux/tmux.conf"  # reload tmux config
+alias tmdef="tmux attach -t main || tmux new -s main" # attach to main or create it
+alias tmks="tmux confirm-before kill-session"    # terminate named running tmux session
+alias tmksv="tmux confirm-before kill-server"    # alias to kill server (alternative)
 
 {{ end -}}
 

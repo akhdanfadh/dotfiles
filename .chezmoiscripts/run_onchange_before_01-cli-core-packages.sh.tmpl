@@ -1,0 +1,144 @@
+{{- $common_pkg := list
+    "bat"
+    "ca-certificates"
+    "cmake"
+    "curl"
+    "fzf"
+    "gcc"
+    "git"
+    "gnupg"
+    "htop"
+    "jq"
+    "make"
+    "man-db"
+    "ncdu"
+    "openssl"
+    "ripgrep"
+    "shellcheck"
+    "tmux"
+    "tree"
+    "unzip"
+    "vim"
+    "wget"
+    "zip"
+    "zsh" -}}
+
+{{- $apt_pkg := list
+    "build-essential"
+    "fd-find"
+    "openssh-client"
+    "openssh-server"
+    "python-is-python3"
+    "python3"
+    "python3-pip"
+    "python3-venv"
+    "software-properties-common"
+    "tar"
+    "ufw" -}}
+
+{{- $brew_pkg := list
+    "eza"
+    "fd"
+    "git-delta"
+    "openssh"
+    "python" -}}
+
+{{- $packages := list }}
+{{- if eq .os_id "linux-ubuntu" -}}
+{{-     $packages = concat $common_pkg $apt_pkg -}}
+{{- else if eq .os_id "darwin" -}}
+{{-     $packages = concat $common_pkg $brew_pkg -}}
+{{- end -}}
+
+#!/bin/bash
+
+set -eufo pipefail
+
+printf "=================================================\n"
+printf "=== Chezmoi 01 - Install CLI core packages\n"
+
+{{ if eq .os_id "linux-ubuntu" }}
+printf "=== Packages to be installed with apt: {{ $packages | join ", " }}\n"
+
+sudo apt-get update
+sudo apt-get upgrade -y
+sudo apt-get install -y {{ $packages | join " " }}
+
+printf "\n=== Installing non-apt packages\n"
+
+# Install git-delta
+if ! command -v delta &> /dev/null; then
+    printf "=== Installing git-delta\n"
+    if ! DELTA_VERSION=$(curl -s https://api.github.com/repos/dandavison/delta/releases/latest | grep -Po '"tag_name": "\K.*?(?=")'); then
+        printf "Failed to get latest git-delta version, defaulting to installing version 0.18.2\n"
+        DELTA_VERSION="0.18.2"
+    fi
+    DELTA_DEB="git-delta_${DELTA_VERSION}_amd64.deb"
+    DELTA_URL="https://github.com/dandavison/delta/releases/download/${DELTA_VERSION}/${DELTA_DEB}"
+
+    if ! wget "${DELTA_URL}"; then
+        printf "Failed to download git-delta package\n"
+        exit 1
+    fi
+    if ! sudo dpkg -i "${DELTA_DEB}"; then
+        printf "Failed to install git-delta package\n"
+        rm "${DELTA_DEB}"
+        exit 1
+    fi
+    sudo apt-get install -f -y
+    rm "${DELTA_DEB}"
+else
+    printf "git-delta is already installed\n"
+fi
+
+# Install eza
+if ! command -v eza &> /dev/null; then
+    printf "=== Installing eza\n"
+    if [ ! -f "/etc/apt/keyrings/gierens.gpg" ]; then
+        sudo mkdir -p /etc/apt/keyrings
+        if ! wget -qO- https://raw.githubusercontent.com/eza-community/eza/main/deb.asc | sudo gpg --dearmor -o /etc/apt/keyrings/gierens.gpg; then
+            printf "Failed to download and import eza GPG key\n"
+            exit 1
+        fi
+        echo "deb [signed-by=/etc/apt/keyrings/gierens.gpg] http://deb.gierens.de stable main" | sudo tee /etc/apt/sources.list.d/gierens.list
+        sudo chmod 644 /etc/apt/keyrings/gierens.gpg /etc/apt/sources.list.d/gierens.list
+        sudo apt-get update
+    fi
+    sudo apt-get install -y eza
+else
+    printf "eza is already installed\n"
+fi
+
+# Further recommended steps
+# 1. eza completion
+if [ ! -d "$HOME/.zsh/completions/eza" ]; then
+    mkdir -p $HOME/.zsh/completions
+    git clone https://github.com/eza-community/eza.git $HOME/.zsh/completions/eza
+fi
+
+# 2. fd-find symlink to fd
+mkdir -p $HOME/.local/bin
+if [ ! -L "$HOME/.local/bin/fd" ] && command -v fdfind &> /dev/null; then
+    ln -s $(which fdfind) $HOME/.local/bin/fd
+fi
+
+# 3. batcat symlink to bat
+if [ ! -L "$HOME/.local/bin/bat" ] && command -v batcat &> /dev/null; then
+    ln -s $(which batcat) $HOME/.local/bin/bat
+fi
+
+{{ else if eq .os_id "darwin" }}
+printf "=== Packages to be installed with brew: {{ $packages | join ", " }}\n"
+
+if ! command -v brew &> /dev/null; then
+    printf "=== Installing Homebrew\n"
+    NONINTERACTIVE=1 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+fi
+brew install {{ $packages | join " " }}
+
+{{ end }}
+
+printf "\n=== Core packages installation complete\n"
+printf "=================================================\n"
+
+{{- /* vim: set filetype=sh: */ -}}
