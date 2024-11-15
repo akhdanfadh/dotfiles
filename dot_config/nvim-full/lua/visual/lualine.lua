@@ -48,7 +48,7 @@ return {
 			if result:find("/envs/") then
 				local env_name = result:match("/envs/([%w_-]+)/")
 				return "󰌠 " .. env_name
-			elseif result:find("/miniconda3/") then
+			elseif result:find("/.miniconda3/") then
 				return "󰌠 base" -- In case it's using the base Conda environment
 			else
 				return "󰌠 !conda" -- If Python is not from Conda
