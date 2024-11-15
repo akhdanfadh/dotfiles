@@ -27,8 +27,8 @@ return {
 			},
 		})
 
-		vim.keymap.set("n", "<C-k>", ":BufferLineCycleNext<CR>")
-		vim.keymap.set("n", "<C-j>", ":BufferLineCyclePrev<CR>")
+		vim.keymap.set("n", "K", ":BufferLineCycleNext<CR>")
+		vim.keymap.set("n", "J", ":BufferLineCyclePrev<CR>")
 		vim.keymap.set("n", "<leader>p", ":BufferLineTogglePin<CR>", { desc = "Pin this buffer" })
 		vim.keymap.set("n", "<leader>X", ":BufferLineGroupClose ungrouped<CR>", { desc = "Close unpinned buffers" })
 	end,

@@ -30,8 +30,8 @@ vim.keymap.set("n", "O", "O<Esc>")
 
 -- Better navigation
 vim.keymap.set("i", "jj", "<Esc>")
-vim.keymap.set("n", "J", "<C-d>")
-vim.keymap.set("n", "K", "<C-u>")
+vim.keymap.set("n", "<C-j>", "<C-d>")
+vim.keymap.set("n", "<C-k>", "<C-u>")
 vim.keymap.set({ "n", "o" }, "H", "^")
 vim.keymap.set({ "n", "o" }, "L", "$")
 
