@@ -1,0 +1,35 @@
+#!/bin/bash
+
+set -eufo pipefail
+
+printf "=================================================\n"
+printf "=== Chezmoi Before 03 - Install Node Virtual Manager\n"
+
+# Install NVM if not already installed
+if [ ! -d "$HOME/.nvm" ]; then
+    if ! NVM_VERSION=$(curl -s https://api.github.com/repos/nvm-sh/nvm/releases/latest | grep -Po '"tag_name": "\K.*?(?=")'); then
+        printf "Failed to get latest NVM version, defaulting to installing version 0.40.1\n"
+        NVM_VERSION="v0.40.1"
+    fi
+    bash -c "curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/${NVM_VERSION}/install.sh | bash"
+else
+    printf "=== NVM is already installed\n"
+fi
+
+# Source NVM script to make nvm command available
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
+
+# Install Node.js LTS version using NVM if not already installed via NVM
+if ! command -v node &> /dev/null || [ "$(which node)" != "$NVM_DIR/versions/node/$(nvm current)/bin/node" ]; then
+    printf "=== Installing Node.js LTS version\n"
+    nvm install --lts
+else
+    printf "=== Node.js is already installed via NVM\n"
+fi
+
+printf "\n=== NVM installation complete\n"
+printf "=================================================\n"
+
+{{- /* vim: set filetype=sh: */ -}}

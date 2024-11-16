@@ -1,0 +1,35 @@
+#!/bin/bash
+
+set -eufo pipefail
+
+printf "=================================================\n"
+printf "=== Chezmoi Before 04 - Install Miniconda\n"
+
+# Install Miniconda if not already installed
+if [ ! -d "$HOME/.miniconda3" ]; then
+    {{ if eq .chezmoi.os "darwin" }}
+        CONDA_INSTALLER="Miniconda3-latest-MacOSX-arm64.sh"
+    {{ else if eq .chezmoi.os "linux" }}
+        CONDA_INSTALLER="Miniconda3-latest-Linux-x86_64.sh"
+    {{ end }}
+    curl -LO "https://repo.anaconda.com/miniconda/$CONDA_INSTALLER"
+    bash $CONDA_INSTALLER -b -p "$HOME/.miniconda3"
+    rm $CONDA_INSTALLER
+else
+    printf "=== Miniconda3 is already installed\n"
+fi
+
+# Run conda activate base and install latest Python and pip if not already installed
+if ! "$HOME/.miniconda3/bin/conda" list | grep -q "^python[[:space:]]"; then
+    printf "=== Activating conda base environment and installing latest Python and pip\n"
+    source "$HOME/.miniconda3/bin/activate"
+    conda activate base
+    conda install -y python pip
+else
+    printf "=== Python and pip are already installed in the conda base environment\n"
+fi
+
+printf "\n=== Miniconda installation complete\n"
+printf "=================================================\n"
+
+{{- /* vim: set filetype=sh: */ -}}
