@@ -55,7 +55,7 @@
 set -eufo pipefail
 
 printf "=================================================\n"
-printf "=== Chezmoi 01 - Install CLI core packages\n"
+printf "=== Chezmoi Before 01 - Install CLI core packages\n"
 
 {{ if eq .os_id "linux-ubuntu" }}
 printf "=== Packages to be installed with apt: {{ $packages | join ", " }}\n"
@@ -70,25 +70,25 @@ printf "\n=== Installing non-apt packages\n"
 if ! command -v delta &> /dev/null; then
     printf "=== Installing git-delta\n"
     if ! DELTA_VERSION=$(curl -s https://api.github.com/repos/dandavison/delta/releases/latest | grep -Po '"tag_name": "\K.*?(?=")'); then
-        printf "Failed to get latest git-delta version, defaulting to installing version 0.18.2\n"
+        printf "=== Failed to get latest git-delta version, defaulting to installing version 0.18.2\n"
         DELTA_VERSION="0.18.2"
     fi
     DELTA_DEB="git-delta_${DELTA_VERSION}_amd64.deb"
     DELTA_URL="https://github.com/dandavison/delta/releases/download/${DELTA_VERSION}/${DELTA_DEB}"
 
     if ! wget "${DELTA_URL}"; then
-        printf "Failed to download git-delta package\n"
+        printf "=== Failed to download git-delta package\n"
         exit 1
     fi
     if ! sudo dpkg -i "${DELTA_DEB}"; then
-        printf "Failed to install git-delta package\n"
+        printf "=== Failed to install git-delta package\n"
         rm "${DELTA_DEB}"
         exit 1
     fi
     sudo apt-get install -f -y
     rm "${DELTA_DEB}"
 else
-    printf "git-delta is already installed\n"
+    printf "=== git-delta is already installed\n"
 fi
 
 # Install eza
@@ -97,7 +97,7 @@ if ! command -v eza &> /dev/null; then
     if [ ! -f "/etc/apt/keyrings/gierens.gpg" ]; then
         sudo mkdir -p /etc/apt/keyrings
         if ! wget -qO- https://raw.githubusercontent.com/eza-community/eza/main/deb.asc | sudo gpg --dearmor -o /etc/apt/keyrings/gierens.gpg; then
-            printf "Failed to download and import eza GPG key\n"
+            printf "=== Failed to download and import eza GPG key\n"
             exit 1
         fi
         echo "deb [signed-by=/etc/apt/keyrings/gierens.gpg] http://deb.gierens.de stable main" | sudo tee /etc/apt/sources.list.d/gierens.list
@@ -106,7 +106,7 @@ if ! command -v eza &> /dev/null; then
     fi
     sudo apt-get install -y eza
 else
-    printf "eza is already installed\n"
+    printf "=== eza is already installed\n"
 fi
 
 # Further recommended steps

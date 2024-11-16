@@ -3,7 +3,7 @@
 set -eufo pipefail
 
 printf "=================================================\n"
-printf "=== Chezmoi 02 - Configure zsh and oh-my-zsh\n"
+printf "=== Chezmoi Before 02 - Configure zsh and oh-my-zsh\n"
 
 # Install zsh if not already installed
 if ! command -v zsh &> /dev/null; then
@@ -14,7 +14,7 @@ if ! command -v zsh &> /dev/null; then
     brew install zsh
     {{ end }}
 else
-    printf "zsh is already installed\n"
+    printf "=== zsh is already installed\n"
 fi
 
 # Set zsh as default shell
@@ -22,7 +22,7 @@ if [ "$SHELL" != "$(which zsh)" ]; then
     printf "=== Setting zsh as default shell\n"
     chsh -s $(which zsh)
 else
-    printf "zsh is already set as default shell\n"
+    printf "=== zsh is already set as default shell\n"
 fi
 
 # Install oh-my-zsh if not already installed
@@ -30,7 +30,7 @@ if [ ! -d "$HOME/.oh-my-zsh" ]; then
     printf "=== Installing oh-my-zsh\n"
     sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" --unattended
 else
-    printf "oh-my-zsh is already installed\n"
+    printf "=== oh-my-zsh is already installed\n"
 fi
 
 # Install oh-my-zsh plugins and themes
@@ -47,7 +47,7 @@ install_plugin_or_theme() {
         printf "=== Installing %s\n" "$name"
         git clone "$repo" "$dest"
     else
-        printf "%s is already installed\n" "$name"
+        printf "=== %s is already installed\n" "$name"
     fi
 }
 
@@ -65,7 +65,7 @@ if [ ! -d "$ZSH_CUSTOM/plugins/zsh-autocomplete" ]; then
     cd $ZSH_CUSTOM/plugins/zsh-autocomplete
     git checkout 8f54aab
 else
-    printf "zsh-autocomplete is already installed\n"
+    printf "=== zsh-autocomplete is already installed\n"
 fi
 
 printf "\n=== zsh and oh-my-zsh configuration complete\n"
