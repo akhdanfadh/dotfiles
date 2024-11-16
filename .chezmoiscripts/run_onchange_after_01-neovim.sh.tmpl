@@ -1,0 +1,58 @@
+#!/bin/bash
+
+set -eufo pipefail
+
+printf "=================================================\n"
+printf "=== Chezmoi After 01 - Install Neovim\n"
+
+# Install Neovim if not already installed
+if ! command -v nvim &> /dev/null; then
+    {{ if eq .os_id "linux-ubuntu" }}
+        # Add Neovim nightly PPA and install
+        sudo apt-get install -y software-properties-common
+        sudo add-apt-repository -y ppa:neovim-ppa/unstable
+        sudo apt-get update
+        sudo apt-get install -y neovim
+
+        # Prerequisites for the Python modules
+        sudo apt-get install -y python-dev python-pip python3-dev python3-pip python3-pynvim
+
+        # Install wl-clipboard and xclip if not in a headless environment
+        {{ if not .headless }}
+            sudo apt-get install -y wl-clipboard xclip
+        {{ end }}
+    {{ else if eq .os_id "darwin" }}
+        # Install Neovim using Homebrew
+        brew install neovim
+    {{ end }}
+else
+    printf "=== Neovim is already installed\n"
+fi
+
+# Install npm packages if npm is available
+if command -v npm &> /dev/null; then
+    printf "=== Installing global npm packages: yarn, tree-sitter-cli, neovim\n"
+    npm install -g yarn tree-sitter-cli neovim
+else
+    printf "=== npm is not installed for neovim node packages\n"
+fi
+
+# Install pip packages
+if command -v pip3 &> /dev/null; then
+    {{ if not (eq .os_id "linux-ubuntu") }}
+        printf "=== Installing nvim pip packages: pynvim\n"
+        pip3 install --user pynvim
+    {{ end }}
+    # Install additional pip packages if not in a headless environment
+    {{ if not .headless }}
+        printf "=== Installing overleaf pip packages: tornado, requests, intervaltree, beautifulsoup4\n"
+        pip3 install --user tornado requests intervaltree beautifulsoup4
+    {{ end }}
+else
+    printf "=== pip3 is not installed for neovim python packages\n"
+fi
+
+printf "\n=== Neovim installation complete\n"
+printf "=================================================\n"
+
+{{- /* vim: set filetype=sh: */ -}}
