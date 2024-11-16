@@ -1,0 +1,46 @@
+{{ if not .headless }}
+
+#!/bin/bash
+
+set -eufo pipefail
+
+printf "=================================================\n"
+printf "=== Chezmoi Desktop 12 - Install Firefox\n"
+
+# Install Firefox if not already installed
+if ! command -v firefox &> /dev/null; then
+    {{ if eq .os_id "linux-ubuntu" }}
+        # Check if snap is installed and remove snap version of Firefox if installed
+        if command -v snap &> /dev/null && snap list firefox &> /dev/null; then
+            sudo snap remove firefox
+        fi
+
+        # Add Mozilla repository for installation
+        sudo install -d -m 0755 /etc/apt/keyrings
+        wget -q https://packages.mozilla.org/apt/repo-signing-key.gpg -O- | sudo tee /etc/apt/keyrings/packages.mozilla.org.asc > /dev/null
+        echo "deb [signed-by=/etc/apt/keyrings/packages.mozilla.org.asc] https://packages.mozilla.org/apt mozilla main" | sudo tee -a /etc/apt/sources.list.d/mozilla.list > /dev/null
+        echo '
+Package: *
+Pin: origin packages.mozilla.org
+Pin-Priority: 1000
+
+Package: firefox*
+Pin: release o=Ubuntu
+Pin-Priority: -1' | sudo tee /etc/apt/preferences.d/mozilla
+        sudo apt-get update
+        sudo apt-get remove -y firefox || true
+        sudo apt-get install -y firefox
+
+    {{ else if eq .os_id "darwin" }}
+        # Install Firefox using Homebrew
+        brew install --cask firefox
+    {{ end }}
+else
+    printf "=== Firefox is already installed\n"
+fi
+
+printf "\n=== Firefox installation complete\n"
+printf "=================================================\n"
+
+{{ end }}
+{{- /* vim: set filetype=sh: */ -}}
