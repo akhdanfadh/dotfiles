@@ -12,7 +12,7 @@ It will probably ask for sudo twice: one for general shell scripts, the other fo
 
 ```bash
 export GITHUB_USERNAME=akhdanfadh
-sh -c "$(wget -qO- get.chezmoi.io)" -- init --apply $GITHUB_USERNAME
+sh -c "$(wget -qO- get.chezmoi.io/lb)" -- init --apply $GITHUB_USERNAME
 ```
 
 ### MacOS
