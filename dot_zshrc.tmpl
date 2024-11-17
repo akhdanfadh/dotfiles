@@ -40,7 +40,7 @@ plugins=(
 {{- if stat (joinPath $zsh_custom "zsh-autocomplete") }}
     zsh-autocomplete
 {{- end }}
-{{- if and (stat (joinPath $zsh_custom "conda-zsh-completion")) (lookPath "conda") }}
+{{- if stat (joinPath $zsh_custom "conda-zsh-completion") }}
     conda-zsh-completion  # completion: DOPE
 {{- end }}
 {{- if stat (joinPath $zsh_custom "zsh-autosuggestions") }}
@@ -56,7 +56,7 @@ plugins=(
     brew  # alias
 {{- end }}
     chezmoi  # completion: DOPE
-{{- if lookPath "conda" }}
+{{- if stat (joinPath .chezmoi.homeDir ".miniconda3") -}}
     conda  # alias
 {{- end }}
     copypath  # function
@@ -86,7 +86,7 @@ plugins=(
 {{- if lookPath "rbw" }}
     rbw  # completion and function: DOPE
 {{- end }}
-{{- if or (or (lookPath "rustc") (lookPath "rustup")) (lookPath "cargo") }}
+{{- if stat (joinPath .chezmoi.homeDir ".cargo") -}}
     rust  # completion rustc, rustup, cargo: DOPE
 {{- end }}
     ssh  # completion and function: DOPE
@@ -174,10 +174,13 @@ zstyle :bracketed-paste-magic paste-init pasteinit
 zstyle :bracketed-paste-magic paste-finish pastefinish
 
 # Language environment
+{{ if eq .chezmoi.os "linux" -}}
 export LANG=en_US.UTF-8
 export LC_TIME=en_GB.UTF-8
 export LC_PAPER=en_GB.UTF-8
 export LC_MEASUREMENT=en_GB.UTF-8
+
+{{ end -}}
 
 {{ if lookPath "nvim" -}}
 # Neovim configuration
