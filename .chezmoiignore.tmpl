@@ -1,6 +1,7 @@
 {{ if .headless }}
 .config/solaar/
 .config/Stretchly/
+.config/{{ .nvim_appname }}/
 {{ if ne .os_id "linux-ubuntu" }}
 .config/tiling-assistant/
 {{ end }}

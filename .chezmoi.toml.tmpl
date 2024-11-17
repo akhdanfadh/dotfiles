@@ -22,9 +22,10 @@
     ephemeral = {{ $ephemeral }}
     headless = {{ $headless }}
 
-{{- $personal := false -}}{{/* always false if ephemeral */}}
 {{- if not $ephemeral }}
     personal = {{ (promptBoolOnce . "personal" "PERSONAL: Should this machine have your personal secrets") }}
+{{- else }}
+    personal = false
 {{ end }}
 
 {{- if not $headless }}
