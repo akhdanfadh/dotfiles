@@ -6,9 +6,11 @@ This automated setup is currently only configured for Ubuntu (server or desktop)
 
 ## Installation
 
+First install `curl`, then run the following commands:
+
 ```bash
 export GITHUB_USERNAME=akhdanfadh
-sh -c "$(curl -fsLS get.chezmoi.io/lb)" -- init --apply $GITHUB_USERNAME
+sudo sh -c "$(curl -fsLS get.chezmoi.io/lb)" -- init --apply $GITHUB_USERNAME
 ```
 
 ## References
