@@ -5,6 +5,14 @@ set -eufo pipefail
 printf "=================================================\n"
 printf "=== Chezmoi After 01 - Install Neovim\n"
 
+# Source our new .zshrc
+if [ -f "$HOME/.zshrc" ]; then
+    printf "=== Sourcing zshrc to apply latest changes\n"
+    source "$HOME/.zshrc"
+else
+    printf "=== .zshrc somehow not found. Skipping sourcing.\n"
+fi
+
 # Install Neovim if not already installed
 if ! command -v nvim &> /dev/null; then
     {{ if eq .os_id "linux-ubuntu" }}
@@ -52,6 +60,13 @@ if command -v pip3 &> /dev/null; then
     {{ end }}
 else
     printf "=== pip3 is not installed for neovim python packages\n"
+fi
+
+# Apply neovim zshrc configuration
+if command -v chezmoi &> /dev/null; then
+    chezmoi apply $HOME/.zshrc
+else
+    printf "=== Cannot find chezmoi inside this chezmoi script\n"
 fi
 
 printf "\n=== Neovim installation complete\n"
