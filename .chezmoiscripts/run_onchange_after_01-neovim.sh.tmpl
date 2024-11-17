@@ -15,7 +15,7 @@ if ! command -v nvim &> /dev/null; then
         sudo apt-get install -y neovim
 
         # Prerequisites for the Python modules
-        sudo apt-get install -y python-dev python-pip python3-dev python3-pip python3-pynvim
+        sudo apt-get install -y python3-dev python3-pip
 
         # Install wl-clipboard and xclip if not in a headless environment
         {{ if not .headless }}
@@ -39,8 +39,10 @@ fi
 
 # Install pip packages
 if command -v pip3 &> /dev/null; then
-    {{ if not (eq .os_id "linux-ubuntu") }}
-        printf "=== Installing nvim pip packages: pynvim\n"
+    printf "=== Installing nvim pip packages: pynvim\n"
+    {{ if eq .os_id "linux-ubuntu" }}
+        sudo apt-get install -y python3-pynvim
+    {{ else }}
         pip3 install --user pynvim
     {{ end }}
     # Install additional pip packages if not in a headless environment
