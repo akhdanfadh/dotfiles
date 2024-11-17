@@ -6,7 +6,16 @@ This automated setup is currently only configured for Ubuntu (server or desktop)
 
 ## Installation
 
-First install `curl`, then run the following commands:
+### Ubuntu
+
+It will probably ask for sudo twice: one for general shell scripts, the other for oh-my-zsh.
+
+```bash
+export GITHUB_USERNAME=akhdanfadh
+sh -c "$(wget -qO- get.chezmoi.io)" -- init --apply $GITHUB_USERNAME
+```
+
+### MacOS
 
 ```bash
 export GITHUB_USERNAME=akhdanfadh
