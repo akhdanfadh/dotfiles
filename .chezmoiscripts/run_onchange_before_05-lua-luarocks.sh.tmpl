@@ -19,7 +19,7 @@ if ! command -v luarocks &> /dev/null; then
             printf "=== Failed to get latest lua version, defaulting to installing version 5.4.7\n"
             LUA_VERSION="lua-5.4.7"
         fi
-        curl -R -O http://www.lua.org/ftp/${LUA_VERSION}.tar.gz
+        curl -R -O https://www.lua.org/ftp/${LUA_VERSION}.tar.gz
         tar -zxf ${LUA_VERSION}.tar.gz
         cd ${LUA_VERSION}
         make linux test
