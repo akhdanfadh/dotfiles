@@ -8,7 +8,7 @@ This automated setup is currently only configured for Ubuntu (server or desktop)
 
 ```bash
 export GITHUB_USERNAME=akhdanfadh
-sh -c "$(curl -fsLS get.chezmoi.io)" -- init --apply $GITHUB_USERNAME
+sh -c "$(curl -fsLS get.chezmoi.io/lb)" -- init --apply $GITHUB_USERNAME
 ```
 
 ## References
