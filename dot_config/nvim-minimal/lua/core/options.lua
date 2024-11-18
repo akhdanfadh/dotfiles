@@ -64,7 +64,7 @@ local function set_conda_python()
 	handle:close()
 
 	-- If the Python path is from Conda, set the Python provider
-	if python_path:find("/envs/") or python_path:find("/miniconda3/") then
+	if python_path:find("/envs/") or python_path:find("/.miniconda3/") then
 		vim.g.python3_host_prog = python_path:gsub("%s+", "") -- Remove any trailing whitespace
 	else
 		vim.g.python3_host_prog = "/usr/bin/python3" -- Fallback in case it's not from Conda
