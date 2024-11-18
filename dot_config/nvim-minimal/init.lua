@@ -25,7 +25,6 @@ require("lazy").setup({
 	require("core.lsp-config"), -- Language Server Protocol holy setup
 	require("core.conform"), -- Autoformatting / format on save
 	require("core.flash"), -- Easy teleport anywhere
-	-- require("archived.none-ls"), -- Another autoformatting: null-ls wrapper
 
 	-- APPEARANCE
 	require("visual.bufferline"), -- Show buffers as tabs
@@ -35,20 +34,12 @@ require("lazy").setup({
 	require("visual.colorizer"), -- Inline RGB color
 	require("visual.stay-centered"), -- Keeps your cursor at the center
 	require("visual.notify"), -- Fancy configurable notification manager
-	-- require("archived.catppuccin"), -- Colorscheme very popular
-	-- require("archived.nightfox") -- Colorscheme backup
-	-- require("archived.starter-mini"), -- Mini greeter screen
-	-- require("archived.alpha"), -- Themeable greeter screen
 
 	-- INTEGRATION
 	require("integrate.tmux"), -- Better tmux navigation
 	require("integrate.git-config"), -- Git integration: vim-fugitive and vim-rhubarb
 	require("integrate.gitsigns"), -- Super fast git decorations for buffers
 	require("integrate.copilot"), -- AI completion
-	-- require("integrate.obsidian"), -- Obsidian note markdown editor
-	-- require("integrate.overleaf"), -- Overleaf buffer in neovim
-	-- require("integrate.firenvim"), -- Turn your browser into a neovim client
-	-- require("integrate.leetcode"), -- Solve LeetCode problems within Neovim
 	-- require("integrate.avante"), -- AI driven development
 	-- require("integrate.chatgpt"), -- ChatGPT integration
 
@@ -65,8 +56,4 @@ require("lazy").setup({
 	require("improve.bullets"), -- Automatic bulleting, useful in markdown
 	require("improve.markdown"), -- Configurable tools for working with MD files
 	require("improve.markdown-preview"), -- Preview markdown in browser
-	-- require("archived.noice"), -- Replace UI for messages, cmdline, and popupmenu
-	-- require("archived.tabout"), -- TabOut like VSCode
-	-- require("archived.mini"), -- Mini plugins bundled together to improve QOL
-	-- require("archived.autolist"), -- Automatic bulleting as well, work well with autopairs
 })
