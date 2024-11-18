@@ -73,9 +73,15 @@
 	# resolutions in the future if the same conflict occurs.
 	enabled = true
 [merge]
-	# zdiff3 gives a clearer view of merge conflicts by showing the common
-	# ancestor, current branch, and the branch being merged.
-	conflictstyle = zdiff3
+{{- $gitVersion := (output "git" "--version" | split " ")._2 | trim -}}
+{{- if (semverCompare ">= 2.35.0" $gitVersion) }}
+    # zdiff3 gives a clearer view of merge conflicts by showing the common
+    # ancestor, current branch, and the branch being merged.
+    conflictstyle = zdiff3
+{{- else }}
+    # diff3 provides a traditional 3-way merge
+    conflictstyle = diff3
+{{- end }}
 
 ### INTEGRITY CHECK
 # Enable Git's object consistency checks (fsck) for various operations
