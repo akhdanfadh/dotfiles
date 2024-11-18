@@ -15,6 +15,8 @@ export GITHUB_USERNAME=akhdanfadh
 sh -c "$(wget -qO- get.chezmoi.io/lb)" -- init --apply $GITHUB_USERNAME
 ```
 
+After installation, the shell will still be bash. To change it to zsh, you must restart (or logout and login) explicitly.
+
 ### MacOS
 
 ```bash
