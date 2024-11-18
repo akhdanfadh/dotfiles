@@ -36,11 +36,20 @@ if ! command -v nvim &> /dev/null; then
 
         {{ if not .headless }}
         # Install wl-clipboard and xclip if not in a headless environment
-            sudo apt-get install -y wl-clipboard xclip
+        sudo apt-get install -y wl-clipboard xclip
+
+        # Install imagemagick for displaying images
+        sudo apt-get install -y imagemagick libmagickwand-dev
         {{ end }}
+
     {{ else if eq .os_id "darwin" }}
         # Install Neovim using Homebrew
         brew install neovim
+
+        {{ if not .headless }}
+        # Install imagemagick for displaying images
+        brew install imagemagick
+        {{ end }}
     {{ end }}
 else
     printf "=== Neovim is already installed\n"
