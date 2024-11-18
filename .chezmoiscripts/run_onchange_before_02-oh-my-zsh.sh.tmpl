@@ -5,6 +5,21 @@ set -eufo pipefail
 printf "=================================================\n"
 printf "=== Chezmoi Before 02 - Configure zsh and oh-my-zsh\n"
 
+# Backup existing zsh configuration files
+backup_file() {
+    local file="$1"
+    if [ -f "$file" ]; then
+        local backup_file="$file.bak.$(date +%Y%m%d%H%M%S)"
+        printf "=== Backing up %s to %s\n" "$file" "$backup_file"
+        cp "$file" "$backup_file"
+    fi
+}
+
+backup_file "$HOME/.zshrc"
+backup_file "$HOME/.zprofile"
+backup_file "$HOME/.zlogin"
+backup_file "$HOME/.zlogout"
+
 # Install zsh if not already installed
 if ! command -v zsh &> /dev/null; then
     printf "=== zsh not found, installing zsh\n"
