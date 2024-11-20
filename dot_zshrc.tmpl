@@ -4,10 +4,10 @@
 # tradeoff: cannot use open in wezterm from finder/nautilus
 if command -v tmux &> /dev/null && [ -n "$PS1" ] && [ -z "$TMUX" ]; then
     {{ if .headless -}}
-    tmux attach -t main || tmux new -s main
+    tmux attach -u -t main || tmux -u new -s main
     {{- else -}} 
     printf "-- tmux friendly reminder  --\n"
-    # tmux attach -t main || tmux new -s main
+    # tmux attach -u -t main || tmux -u new -s main
     {{- end }}
 fi
 
