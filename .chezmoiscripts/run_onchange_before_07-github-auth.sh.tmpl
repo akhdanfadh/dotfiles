@@ -1,0 +1,101 @@
+{{- if .personal -}}
+#!/bin/bash
+
+set -eufo pipefail
+
+printf "=================================================\n"
+printf "=== Chezmoi Before 07 - Github SSH Authentication\n"
+
+# Check and install git if needed
+if ! command -v git &> /dev/null; then
+    {{ if eq .os_id "darwin" }}
+    brew install git
+    {{ else if eq .os_id "linux-ubuntu" }}
+    sudo apt install git
+    {{ end }}
+else
+    printf "=== Git is already installed\n"
+fi
+
+# Check and install GitHub CLI if needed
+if ! command -v gh &> /dev/null; then
+    {{ if eq .os_id "darwin" }}
+    brew install gh
+
+    {{ else if eq .os_id "linux-ubuntu" }}
+    # Official installation instructions
+    type -p wget >/dev/null || sudo apt install -y wget
+    wget -qO- https://cli.github.com/packages/githubcli-archive-keyring.gpg | \
+        sudo dd of=/usr/share/keyrings/githubcli-archive-keyring.gpg
+    sudo chmod go+r /usr/share/keyrings/githubcli-archive-keyring.gpg
+    echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/githubcli-archive-keyring.gpg] \
+        https://cli.github.com/packages stable main" | \
+        sudo tee /etc/apt/sources.list.d/github-cli.list > /dev/null
+    sudo apt update
+    sudo apt install -y gh
+    {{ end }}
+else
+    printf "=== Github CLI is already installed\n"
+fi
+
+printf "\n=== Creating SSH key\n"
+
+# Prompt for SSH key location, with default
+default_key_location="$HOME/.ssh/github_ed25519"
+printf "=== Enter a file location for the SSH key [default: %s]: " "$default_key_location"
+read -r key_location
+key_location=${key_location:-$default_key_location}  # Use default if input is empty
+
+# Check if SSH key exists
+if [[ -f "$key_location" ]]; then
+    printf "\n=== That SSH key exists. Proceed with caution.\n"
+fi
+
+# Prompt for SSH key comment, with default
+default_comment="$(whoami)@$(hostname)__git@github.com"
+printf "=== Enter a comment for the SSH key [default: %s]: " "$default_comment"
+read -r key_comment
+key_comment=${key_comment:-$default_comment}  # Use default if input is empty
+
+printf "=== Enter an optional passphrase (leave blank for none): "
+read -r key_passphrase
+
+# Generate SSH key
+if [ -z "$key_passphrase" ]; then
+    ssh-keygen -t ed25519 -C "$key_comment" -f "$key_location" -N ""
+else
+    ssh-keygen -t ed25519 -C "$key_comment" -f "$key_location" -N "$key_passphrase"
+fi
+
+printf "\n=== Authenticating with Github\n"
+
+# Check GitHub authentication status
+if gh auth status &> /dev/null; then
+    printf "=== Already authenticated with GitHub CLI. Do you want to re-authenticate? [y/n] "
+    read -r re_auth
+    if [[ "$re_auth" =~ ^([yY][eE][sS]|[yY])$ ]]; then
+        gh auth logout
+
+        printf "=== Re-authenticating with GitHub CLI using SSH protocol...\n"
+        gh auth login -p ssh
+
+        printf "=== Adding SSH key to SSH agent\n"
+        eval "$(ssh-agent -s)"
+        ssh-add "$key_location"
+    else
+        printf "=== Skipping authentication.\n"
+    fi
+else
+    printf "=== Authenticating with GitHub CLI using SSH protocol...\n"
+    gh auth login -p ssh
+
+    printf "=== Adding SSH key to SSH agent\n"
+    eval "$(ssh-agent -s)"
+    ssh-add "$key_location"
+fi
+
+printf "\n=== Github authentication process complete\n"
+printf "=================================================\n"
+
+{{ end }}
+{{- /* vim: set filetype=sh: */ -}}
