@@ -62,7 +62,6 @@ printf "=== Chezmoi Before 01 - Install CLI core packages\n"
 printf "=== Packages to be installed with apt: {{ $packages | join ", " }}\n"
 
 sudo apt-get update
-sudo apt-get upgrade -y
 sudo apt-get install -y {{ $packages | join " " }}
 
 printf "\n=== Installing non-apt packages\n"
