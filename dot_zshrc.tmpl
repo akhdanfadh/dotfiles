@@ -1,4 +1,13 @@
-{{- if lookPath "tmux" -}}
+{{- if eq .chezmoi.os "linux" -}}
+# Language environment
+export LANG=en_US.UTF-8
+export LC_TIME=en_GB.UTF-8
+export LC_PAPER=en_GB.UTF-8
+export LC_MEASUREMENT=en_GB.UTF-8
+
+{{ end -}}
+
+{{ if lookPath "tmux" -}}
 # Auto load TMUX
 # https://unix.stackexchange.com/questions/43601/how-can-i-set-my-default-shell-to-start-up-tmux
 # tradeoff: cannot use open in wezterm from finder/nautilus
@@ -177,15 +186,6 @@ pastefinish() {
 zstyle :bracketed-paste-magic paste-init pasteinit
 zstyle :bracketed-paste-magic paste-finish pastefinish
 
-# Language environment
-{{ if eq .chezmoi.os "linux" -}}
-export LANG=en_US.UTF-8
-export LC_TIME=en_GB.UTF-8
-export LC_PAPER=en_GB.UTF-8
-export LC_MEASUREMENT=en_GB.UTF-8
-
-{{ end -}}
-
 {{ if lookPath "nvim" -}}
 # Neovim configuration
 export NVIM_APPNAME={{ .nvim_appname }}
@@ -258,6 +258,9 @@ export ANTHROPIC_API_KEY={{ .anthropic_api_key }}
 export OPENAI_API_KEY={{ .openai_api_key }}
 
 {{ end -}}
+
+# Custom shell config for each machine
+[ -s "$HOME/.customrc" ] && source "$HOME/.customrc"  # This loads nvm bash_completion
 
 # To customize prompt, run `p10k configure` or edit ~/.config/p10k.zsh or ~/.p10k.zsh.
 [[ -f ~/.config/p10k.zsh ]] && source ~/.config/p10k.zsh || source ~/.p10k.zsh
