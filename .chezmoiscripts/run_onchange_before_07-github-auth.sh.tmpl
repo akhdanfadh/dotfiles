@@ -69,29 +69,39 @@ fi
 
 printf "\n=== Authenticating with Github\n"
 
+# Function to configure SSH
+configure_ssh_config() {
+    local ssh_config_file="$HOME/.ssh/config"
+    local key_location="$1"
+
+    mkdir -p "$HOME/.ssh"
+    if [ -f "$ssh_config_file" ]; then
+        if grep -q "Host github.com" "$ssh_config_file"; then
+            printf "=== Removing existing github.com SSH configuration\n"
+            sed -i.bak.$(date +%Y%m%d%H%M%S) '/Host github.com/,/^$\|^Host/!b;/^Host/!d;/Host github.com/d' "$ssh_config_file"
+        fi
+    fi
+
+    printf "=== Adding github.com in SSH configuration\n"
+    printf "Host github.com\n    AddKeysToAgent yes\n    IdentityFile %s\n\n" "$key_location" >> "$ssh_config_file"
+}
+
 # Check GitHub authentication status
 if gh auth status &> /dev/null; then
     printf "=== Already authenticated with GitHub CLI. Do you want to re-authenticate? [y/n] "
     read -r re_auth
     if [[ "$re_auth" =~ ^([yY][eE][sS]|[yY])$ ]]; then
         gh auth logout
-
         printf "=== Re-authenticating with GitHub CLI using SSH protocol...\n"
         gh auth login -p ssh
-
-        printf "=== Adding SSH key to SSH agent\n"
-        eval "$(ssh-agent -s)"
-        ssh-add "$key_location"
+        configure_ssh_config "$key_location"
     else
         printf "=== Skipping authentication.\n"
     fi
 else
     printf "=== Authenticating with GitHub CLI using SSH protocol...\n"
     gh auth login -p ssh
-
-    printf "=== Adding SSH key to SSH agent\n"
-    eval "$(ssh-agent -s)"
-    ssh-add "$key_location"
+    configure_ssh_config "$key_location"
 fi
 
 printf "\n=== Github authentication process complete\n"
