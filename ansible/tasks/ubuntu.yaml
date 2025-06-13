@@ -30,7 +30,7 @@
 - name: CLI Tool Symlinks
   when: not config.minimal | bool
   block:
-    - name: Ensure .local/bin directory exists
+    - name: Ensure ~/.local/bin directory exists
       ansible.builtin.file:
         path: "{{ ansible_env.HOME }}/.local/bin"
         state: directory
