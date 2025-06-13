@@ -13,13 +13,13 @@
       community.general.git_config:
         name: user.email
         scope: global
-        value: "{{ config.git.email }}"
+        value: "{{ config.git_email }}"
 
     - name: Configure git user name
       community.general.git_config:
         name: user.name
         scope: global
-        value: "{{ config.git.name }}"
+        value: "{{ config.git_name }}"
 
     - name: Configure git to use delta as diff tool
       community.general.git_config:

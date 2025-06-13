@@ -1,15 +1,16 @@
 ---
+# This will be reiterated in the chezmoi.yaml, see template
 config:
-  minimal: true # essential packages only
+  os: linux_ubuntu # supported: linux_ubuntu, darwin
+  wsl: false # set to true if running in WSL
+  minimal: true # essential packages only, no oh-my-zsh
   headless: true # no GUI, e.g. proxmox lxc
 
   timezone: Asia/Tokyo # choose from /usr/share/zoneinfo
   locale: en_US.UTF-8 # choose from /usr/share/i18n/SUPPORTED
-
-  use_zsh: true # configure zsh & oh-my-zsh
-  git:
-    email: "me@akhdan.dev"
-    name: "Akhdan Fadhilah"
+  git_email: me@akhdan.dev
+  git_name: Akhdan Fadhilah
+  nvim_config: nvim-minimal # adjust manually
 
 packages:
   linux_ubuntu:
