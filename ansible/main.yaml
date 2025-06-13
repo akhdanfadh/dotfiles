@@ -18,6 +18,10 @@
       ansible.builtin.include_tasks: tasks/git.yaml
       when: ansible_facts['distribution'] == "Ubuntu"
 
+    - name: Run zsh configuration
+      ansible.builtin.include_tasks: tasks/zsh.yaml
+      when: ansible_facts['distribution'] == "Ubuntu" or ansible_facts['os_family'] == "Darwin"
+
     - name: Run bootstrap playbook for Darwin/macOS systems
       ansible.builtin.debug:
         msg: "Darwin/macOS bootstrap not yet implemented"

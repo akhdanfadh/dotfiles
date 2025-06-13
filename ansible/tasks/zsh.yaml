@@ -1,0 +1,28 @@
+---
+- name: Install and configure Zsh for Ubuntu
+  when: ansible_facts['distribution'] == "Ubuntu"
+  block:
+    - name: Install Zsh
+      ansible.builtin.package:
+        name: zsh
+        state: present
+      become: true
+
+    - name: Set Zsh as default shell for current user
+      ansible.builtin.user:
+        name: "{{ ansible_user_id }}"
+        shell: /usr/bin/zsh
+      become: true
+
+- name: Install Oh My Zsh (non-minimal environment)
+  when: not config.minimal | bool
+  block:
+    - name: Check if Oh My Zsh is already installed
+      ansible.builtin.stat:
+        path: "{{ ansible_env.HOME }}/.oh-my-zsh"
+      register: oh_my_zsh_installed
+
+    - name: Download and install Oh My Zsh
+      ansible.builtin.shell: |
+        sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
+      when: not oh_my_zsh_installed.stat.exists
