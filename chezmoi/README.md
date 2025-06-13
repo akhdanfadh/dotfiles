@@ -26,5 +26,5 @@ sh -c "$(curl -fsLS get.chezmoi.io/lb)" -- init --apply $GITHUB_USERNAME
 
 ## References
 
-- Chezmoi's creator dotfiles, heavy with scripts: [twpayne](https://github.com/twpayne/dotfiles) 
-- Reliance on Ansible playbook: [logandonley](https://github.com/logandonley/dotfiles) 
+- Chezmoi's creator dotfiles, heavy with scripts: [twpayne](https://github.com/twpayne/dotfiles)
+- Reliance on Ansible playbook: [logandonley](https://github.com/logandonley/dotfiles)
