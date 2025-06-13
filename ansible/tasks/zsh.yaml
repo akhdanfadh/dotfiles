@@ -27,3 +27,23 @@
         sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
       when: not oh_my_zsh_installed.stat.exists
       changed_when: not oh_my_zsh_installed.stat.exists
+
+    - name: Download Oh My Zsh themes from repositories
+      ansible.builtin.git:
+        repo: "{{ item.repo }}"
+        dest: "{{ ansible_env.HOME }}/.oh-my-zsh/custom/themes/{{ item.name }}"
+        version: "{{ item.version | default('HEAD') }}"
+        clone: true
+        update: false
+      loop: "{{ oh_my_zsh.themes }}"
+      when: oh_my_zsh.themes is defined
+
+    - name: Download Oh My Zsh plugins from repositories
+      ansible.builtin.git:
+        repo: "{{ item.repo }}"
+        dest: "{{ ansible_env.HOME }}/.oh-my-zsh/custom/plugins/{{ item.name }}"
+        version: "{{ item.version | default('HEAD') }}"
+        clone: true
+        update: false
+      loop: "{{ oh_my_zsh.plugins }}"
+      when: oh_my_zsh.plugins is defined

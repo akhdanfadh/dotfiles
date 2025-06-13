@@ -42,3 +42,19 @@ packages:
       - zip # create zip archives
 
   darwin: [] # TODO: add brew packages
+
+oh_my_zsh:
+  themes:
+    - name: powerlevel10k
+      repo: https://github.com/romkatv/powerlevel10k.git
+  plugins:
+    - name: zsh-autosuggestions
+      repo: https://github.com/zsh-users/zsh-autosuggestions
+    - name: zsh-autocomplete
+      repo: https://github.com/marlonrichert/zsh-autocomplete.git
+    - name: fast-syntax-highlighting
+      repo: https://github.com/zdharma-continuum/fast-syntax-highlighting.git
+    - name: zsh-vi-mode
+      repo: https://github.com/jeffreytse/zsh-vi-mode
+    - name: conda-zsh-completion
+      repo: https://github.com/conda-incubator/conda-zsh-completion
