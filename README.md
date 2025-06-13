@@ -1,10 +1,18 @@
-# Dotfiles & Bootstrapping
+# dotfiles
 
-Quick configuration for my dev setup, which is usually a Proxmox Ubuntu LXC.
+This repo contains the configuration to setup my machines with [Ansible](https://www.ansible.com/) (automation platform) and [chezmoi](https://www.chezmoi.io/) (dotfile manager). Only supports Ubuntu and MacOS machines for now.
 
-THIS REPO IS WORK IN PROGRESS! It was only chezmoi files in the chezmoi directory, but now I want to use ansible instead for scripting and chezmoi specifically for dotfiles.
+> [!WARNING]
+> Work in progress! Not yet ready for public consumption, use for reference.
+
+I built this initially with just chezmoi to set up my Ubuntu desktop and Macbook, but turns out I use this more than I thought for my Proxmox children (web servers, dev environments, etc.). Thing is [chezmoi scripting break its declarative appraoch](https://www.chezmoi.io/user-guide/use-scripts-to-perform-actions/). So for better automation and [idempotency](https://en.wikipedia.org/wiki/Idempotence?useskin=vector), I use Ansible for the system setup and chezmoi specifically for dotfiles.
 
 ## Quick Start
+
+> [!IMPORTANT]
+> If you haven't already, **copy your SSH public key to the target machine** since the playbook will [hardened](<https://en.wikipedia.org/wiki/Hardening_(computing)?useskin=vector>) the remote machine. See [Common Cases](#ssh-public-key) section below.
+
+Do the following on the **target machine**. Then, check `config.yaml` file. If LGTY, run `ansible-playbook ansible/main.yaml --ask-become-pass`.
 
 ```bash
 sudo apt update && sudo apt install -y ansible git
@@ -14,13 +22,11 @@ git clone https://github.com/akhdanfadh/dotfiles.git chezmoi
 cd chezmoi
 ```
 
-Check EVERYTHING in the `config.yaml` file, if okay, run `ansible-playbook ansible/main.yaml --ask-become-pass`.
-
 ## Common Cases
 
 ### Non-Root User
 
-Typically, a new Proxmox LXC is on root user. This creates one with sudo access and switch to it. To change password, use `passwd $USERNAME`. Before doing this, do `USERNAME="yourusername"` first.
+Typically, a new Proxmox LXC is on root user. The following creates one with sudo access and switch to it. Before doing this, do `USERNAME="yourusername"` first. To change password, use `passwd $USERNAME`.
 
 ```bash
 adduser $USERNAME
@@ -30,7 +36,7 @@ su - $USERNAME
 
 ### SSH Public Key
 
-Don't forget to copy your **local** public key to the remote machine. Before doing this, do `PUBKEY="put_your_public_key_here"` first.
+Don't forget to copy your local public key to the remote machine. Before doing this, do `PUBKEY="put_your_public_key_here"` first.
 
 ```bash
 mkdir -p $HOME/.ssh
