@@ -3,7 +3,7 @@
 config:
   os: linux_ubuntu # supported: linux_ubuntu, darwin
   wsl: false # set to true if running in WSL
-  minimal: true # essential packages only, no oh-my-zsh, no github auth
+  minimal: false # essential packages only, no github auth
   headless: true # no GUI, e.g. proxmox lxc
 
   timezone: Asia/Tokyo # choose from /usr/share/zoneinfo
