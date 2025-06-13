@@ -9,12 +9,16 @@ THIS REPO IS WORK IN PROGRESS! It was only chezmoi files in the chezmoi director
 ```bash
 sudo apt update && sudo apt install -y ansible git
 
-cd $HOME
-git clone https://github.com/akhdanfadh/mini-dotfiles.git .dotfiles
-cd .dotfiles
+mkdir -p "$HOME/.local/share" && cd "$_"
+git clone https://github.com/akhdanfadh/dotfiles.git chezmoi
+cd chezmoi
 ```
 
-### Proxmox Specific
+Check EVERYTHING in the `config.yaml` file, if okay, run `ansible-playbook ansible/main.yaml --ask-become-pass`.
+
+## Common Cases
+
+### Non-Root User
 
 Typically, a new Proxmox LXC is on root user. This creates one with sudo access and switch to it. To change password, use `passwd $USERNAME`. Before doing this, do `USERNAME="yourusername"` first.
 

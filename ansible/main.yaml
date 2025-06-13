@@ -7,27 +7,30 @@
 
   tasks:
     - name: Check for supported OS
+      when:
+        - ansible_facts['distribution'] != "Ubuntu"
+        - ansible_facts['os_family'] != "Darwin"
       ansible.builtin.fail:
-        when:
-          - ansible_facts['distribution'] != "Ubuntu"
-          - ansible_facts['os_family'] != "Darwin"
         msg: "This playbook only supports Ubuntu and Darwin/macOS only. Detected: {{ ansible_facts['distribution'] | default(ansible_facts['os_family']) }}"
 
-    - name: Ubuntu tasks
-      when: ansible_facts['distribution'] == "Ubuntu"
+    - name: Bootstrapping (package, system, hardening)
       block:
-        - name: Bootstrapping (package, system, and hardening)
+        - name: Ubuntu Bootstrapping
+          when: ansible_facts['distribution'] == "Ubuntu"
           ansible.builtin.include_tasks: tasks/ubuntu.yaml
-        - name: Git and GitHub configuration
-          ansible.builtin.include_tasks: tasks/ubuntu_git.yaml
+        - name: Darwin/macOS Bootstrapping
+          when: ansible_facts['os_family'] == "Darwin"
+          ansible.builtin.debug:
+            msg: "Darwin/macOS bootstrapping tasks not yet implemented"
 
-    - name: Darwin/macOS tasks
-      when: ansible_facts['os_family'] == "Darwin"
-      ansible.builtin.debug:
-        msg: "Darwin/macOS tasks not yet implemented"
+    - name: Chezmoi configuration and dotfiles setup
+      ansible.builtin.include_tasks: tasks/chezmoi.yaml
 
     - name: Configure ZSH and Oh My Zsh
       ansible.builtin.include_tasks: tasks/zsh.yaml
+
+    - name: Git and GitHub configuration
+      ansible.builtin.include_tasks: tasks/git.yaml
 
   handlers:
     - name: Restart cron

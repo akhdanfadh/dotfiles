@@ -2,7 +2,7 @@
 - name: Git Basic Configuration
   block:
     - name: Ensure git and git-delta is installed
-      ansible.builtin.apt:
+      ansible.builtin.package:
         name:
           - git
           - git-delta
@@ -43,7 +43,7 @@
   when: not config.minimal | bool
   block:
     - name: Ensure GitHub CLI is installed
-      ansible.builtin.apt:
+      ansible.builtin.package:
         name: gh
         state: present
       become: true

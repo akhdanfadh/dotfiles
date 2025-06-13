@@ -1,0 +1,37 @@
+---
+- name: Set chezmoi binary path
+  ansible.builtin.set_fact:
+    chezmoi_bin_path: "{{ ansible_env.HOME }}/.local/bin/chezmoi"
+
+- name: Check if chezmoi is already installed
+  ansible.builtin.stat:
+    path: "{{ chezmoi_bin_path }}"
+  register: chezmoi_bin
+
+- name: Install chezmoi
+  when: not chezmoi_bin.stat.exists
+  block:
+    - name: Ensure ~/.local/bin directory exists
+      ansible.builtin.file:
+        path: "{{ ansible_env.HOME }}/.local/bin"
+        state: directory
+        mode: '0755'
+
+    - name: Install chezmoi to ~/.local/bin
+      ansible.builtin.shell: |
+        sh -c "$(curl -fsLS get.chezmoi.io)" -- -b {{ ansible_env.HOME }}/.local/bin
+      changed_when: true
+
+- name: Configure chezmoi
+  block:
+    - name: Ensure chezmoi config directory exists
+      ansible.builtin.file:
+        path: "{{ ansible_env.HOME }}/.config/chezmoi"
+        state: directory
+        mode: '0755'
+
+    - name: Generate chezmoi config from template
+      ansible.builtin.template:
+        src: chezmoi.yaml.j2
+        dest: "{{ ansible_env.HOME }}/.config/chezmoi/chezmoi.yaml"
+        mode: '0644'
