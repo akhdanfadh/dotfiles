@@ -19,7 +19,7 @@
         - name: Bootstrapping (package, system, and hardening)
           ansible.builtin.include_tasks: tasks/ubuntu.yaml
         - name: Git and GitHub configuration
-          ansible.builtin.include_tasks: tasks/git.yaml
+          ansible.builtin.include_tasks: tasks/ubuntu_git.yaml
 
     - name: Darwin/macOS tasks
       when: ansible_facts['os_family'] == "Darwin"
