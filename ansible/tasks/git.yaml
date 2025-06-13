@@ -1,0 +1,157 @@
+---
+- name: Git Basic Configuration
+  block:
+    - name: Configure git user email
+      community.general.git_config:
+        name: user.email
+        scope: global
+        value: "{{ config.git.email }}"
+
+    - name: Configure git user name
+      community.general.git_config:
+        name: user.name
+        scope: global
+        value: "{{ config.git.name }}"
+
+- name: Git Delta Configuration
+  when: config.git.use_delta | bool
+  block:
+    - name: Check if delta is already installed
+      ansible.builtin.command: which delta
+      register: delta_check
+      failed_when: false
+      changed_when: false
+
+    - name: Install git-delta
+      when: delta_check.rc != 0
+      block:
+        - name: Get latest delta release info
+          ansible.builtin.uri:
+            url: https://api.github.com/repos/dandavison/delta/releases/latest
+            return_content: true
+          register: delta_release
+
+        - name: Download and install delta
+          ansible.builtin.get_url:
+            url: "{{ delta_release.json.assets | selectattr('name', 'match', '.*git-delta.*amd64.deb$') | map(attribute='browser_download_url') | first }}"
+            dest: /tmp/git-delta.deb
+            mode: '0644'
+
+        - name: Install delta package
+          ansible.builtin.apt:
+            deb: /tmp/git-delta.deb
+            state: present
+          become: true
+
+        - name: Clean up delta package file
+          ansible.builtin.file:
+            path: /tmp/git-delta.deb
+            state: absent
+
+    - name: Configure git to use delta as diff tool
+      community.general.git_config:
+        name: core.pager
+        scope: global
+        value: "delta"
+
+    - name: Configure delta settings
+      community.general.git_config:
+        name: "{{ item.key }}"
+        scope: global
+        value: "{{ item.value }}"
+      loop:
+        - { key: "interactive.diffFilter", value: "delta --color-only" }
+        - { key: "delta.navigate", value: "true" }
+        - { key: "delta.light", value: "false" }
+        - { key: "merge.conflictstyle", value: "diff3" }
+        - { key: "diff.colorMoved", value: "default" }
+
+- name: GitHub CLI and Authentication (dev non-minimal mode only)
+  when: not config.minimal | bool
+  block:
+    - name: Check if GitHub CLI is already installed
+      ansible.builtin.command: which gh
+      register: gh_check
+      failed_when: false
+      changed_when: false
+
+    - name: Install GitHub CLI if not present
+      when: gh_check.rc != 0
+      block:
+        - name: Ensure wget is installed for GitHub CLI installation
+          ansible.builtin.apt:
+            name: wget
+            state: present
+          become: true
+
+        - name: Add GitHub CLI GPG key
+          ansible.builtin.get_url:
+            url: https://cli.github.com/packages/githubcli-archive-keyring.gpg
+            dest: /usr/share/keyrings/githubcli-archive-keyring.gpg
+            mode: '0644'
+          become: true
+
+        - name: Add GitHub CLI repository
+          ansible.builtin.apt_repository:
+            repo: >-
+              deb [arch={{ ansible_architecture }}
+              signed-by=/usr/share/keyrings/githubcli-archive-keyring.gpg]
+              https://cli.github.com/packages stable main
+            state: present
+            filename: github-cli
+          become: true
+
+        - name: Update apt cache after adding GitHub CLI repo
+          ansible.builtin.apt:
+            update_cache: true
+          become: true
+
+        - name: Install GitHub CLI
+          ansible.builtin.apt:
+            name: gh
+            state: present
+          become: true
+
+    - name: Check GitHub authentication status
+      ansible.builtin.command: gh auth status
+      register: gh_auth_check
+      failed_when: false
+      changed_when: false
+
+    - name: Setup GitHub SSH authentication if not authenticated
+      when: gh_auth_check.rc != 0
+      block:
+        - name: Ensure .ssh directory exists
+          ansible.builtin.file:
+            path: "{{ ansible_env.HOME }}/.ssh"
+            state: directory
+            mode: '0700'
+
+        - name: Check if GitHub SSH key already exists
+          ansible.builtin.stat:
+            path: "{{ ansible_env.HOME }}/.ssh/github_ed25519"
+          register: github_ssh_key
+
+        - name: Generate GitHub SSH key if it doesn't exist
+          community.crypto.openssh_keypair:
+            path: "{{ ansible_env.HOME }}/.ssh/github_ed25519"
+            type: ed25519
+            comment: "{{ ansible_user_id }}@{{ ansible_hostname }}__git@github.com"
+          when: not github_ssh_key.stat.exists
+
+        - name: Add GitHub SSH configuration
+          ansible.builtin.blockinfile:
+            path: "{{ ansible_env.HOME }}/.ssh/config"
+            marker: "# {mark} ANSIBLE MANAGED BLOCK - GitHub"
+            create: true
+            backup: true
+            mode: '0600'
+            block: |
+              Host github.com
+                  AddKeysToAgent yes
+                  IdentityFile {{ ansible_env.HOME }}/.ssh/github_ed25519
+
+        - name: Trigger GitHub authentication instructions
+          ansible.builtin.command: /bin/true
+          notify: GitHub authentication required
+          changed_when: true
