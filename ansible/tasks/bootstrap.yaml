@@ -28,6 +28,7 @@
       when: not config.minimal | bool
 
 - name: CLI Tool Symlinks
+  when: not config.minimal | bool
   block:
     - name: Ensure .local/bin directory exists
       ansible.builtin.file:
@@ -48,7 +49,6 @@
         dest: "{{ ansible_env.HOME }}/.local/bin/bat"
         state: link
       when: "'bat' in packages.linux_ubuntu.dev"
-  when: not config.minimal | bool
 
 - name: Timezone Configuration
   block:
