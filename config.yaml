@@ -10,7 +10,6 @@ config:
   git:
     email: "me@akhdan.dev"
     name: "Akhdan Fadhilah"
-    use_delta: true # use delta as git diff tool
 
 packages:
   linux_ubuntu:
