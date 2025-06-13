@@ -27,6 +27,29 @@
       become: true
       when: not config.minimal | bool
 
+- name: CLI Tool Symlinks
+  block:
+    - name: Ensure .local/bin directory exists
+      ansible.builtin.file:
+        path: "{{ ansible_env.HOME }}/.local/bin"
+        state: directory
+        mode: '0755'
+
+    - name: Create fd symlink to fdfind
+      ansible.builtin.file:
+        src: /usr/bin/fdfind
+        dest: "{{ ansible_env.HOME }}/.local/bin/fd"
+        state: link
+      when: "'fd-find' in packages.linux_ubuntu.dev"
+
+    - name: Create bat symlink to batcat
+      ansible.builtin.file:
+        src: /usr/bin/batcat
+        dest: "{{ ansible_env.HOME }}/.local/bin/bat"
+        state: link
+      when: "'bat' in packages.linux_ubuntu.dev"
+  when: not config.minimal | bool
+
 - name: Timezone Configuration
   block:
     - name: Set timezone
