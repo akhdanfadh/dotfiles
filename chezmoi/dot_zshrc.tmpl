@@ -65,7 +65,7 @@ plugins=(
 {{- if stat (joinPath $zsh_custom "zsh-vi-mode") }}
     zsh-vi-mode
 {{- end }}
-{{- if eq .os_id "darwin" }}
+{{- if eq .os "darwin" }}
     brew  # alias
 {{- end }}
     chezmoi  # completion: DOPE
@@ -73,7 +73,7 @@ plugins=(
     conda  # alias
 {{- end }}
     copypath  # function
-{{- if eq .os_id "linux-ubuntu" }}
+{{- if eq .os "linux_ubuntu" }}
     debian  # function and alias
     ufw  # completion: DOPE
 {{- end }}
@@ -188,7 +188,7 @@ zstyle :bracketed-paste-magic paste-finish pastefinish
 
 {{ if lookPath "nvim" -}}
 # Neovim configuration
-export NVIM_APPNAME={{ .nvim_appname }}
+export NVIM_APPNAME={{ .nvim_config }}
 export EDITOR="nvim"
 alias v="nvim"
 alias vr="nvim -R"
@@ -235,9 +235,9 @@ alias tmksv="tmux confirm-before kill-server"    # alias to kill server (alterna
 alias cm="chezmoi"
 alias cme="chezmoi edit -a"
 alias cma="chezmoi apply"
-alias cmav="chezmoi apply $HOME/.config/{{ .nvim_appname }}"
+alias cmav="chezmoi apply $HOME/.config/{{ .nvim_config }}"
 
-{{ if eq .is_wsl true -}}
+{{ if eq .wsl true -}}
 # >>> WSL-only config >>>
 {{ if lookPath "wslview" -}}
 # WSL Browser config - make sure `wslu` is installed

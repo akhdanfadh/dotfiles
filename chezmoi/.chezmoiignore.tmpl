@@ -1,10 +1,8 @@
-README.md
-
 {{ if .headless }}
 .config/solaar/
 .config/Stretchly/
 .config/nvim-full/
-{{ if eq .os_id "linux-ubuntu" }}
+{{ if eq .os "linux_ubuntu" }}
 .config/tiling-assistant/
 {{ end }}
 .config/wezterm/

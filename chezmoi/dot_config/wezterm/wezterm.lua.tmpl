@@ -15,7 +15,7 @@ config = {
 	-- term = "wezterm",
 	-- !!! BUG: Setting this will make ssh not working properly
 
-    {{- if eq .is_wsl true -}}
+    {{- if eq .wsl true -}}
 	-- >>> Default WSL
 	default_domain = "WSL:Ubuntu",
     {{ end }}

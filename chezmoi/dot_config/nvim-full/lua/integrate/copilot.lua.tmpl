@@ -1,7 +1,7 @@
 return {
 	"github/copilot.vim",
 	config = function()
-        {{- if eq .is_wsl true -}}
+        {{- if eq .wsl true -}}
 		-- WSL workaround to auth: https://github.com/orgs/community/discussions/50263
 		vim.g.copilot_browser = "/mnt/c/Program Files/Mozilla Firefox/firefox.exe"
         {{ end }}
