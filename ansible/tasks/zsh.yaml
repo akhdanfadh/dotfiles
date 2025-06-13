@@ -26,3 +26,4 @@
       ansible.builtin.shell: |
         sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
       when: not oh_my_zsh_installed.stat.exists
+      changed_when: not oh_my_zsh_installed.stat.exists
