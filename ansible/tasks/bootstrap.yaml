@@ -1,0 +1,130 @@
+---
+- name: Package Management
+  block:
+    - name: Update apt cache
+      ansible.builtin.apt:
+        update_cache: true
+        cache_valid_time: 3600
+      become: true
+
+    - name: Upgrade all packages
+      ansible.builtin.apt:
+        upgrade: dist
+        autoremove: true
+        autoclean: true
+      become: true
+
+    - name: Install essential packages
+      ansible.builtin.apt:
+        name: "{{ packages.linux_ubuntu.essential }}"
+        state: present
+      become: true
+
+    - name: Install additional packages (non-minimal mode)
+      ansible.builtin.apt:
+        name: "{{ packages.linux_ubuntu.dev }}"
+        state: present
+      become: true
+      when: not config.minimal | bool
+
+- name: Timezone Configuration
+  block:
+    - name: Set timezone
+      community.general.timezone:
+        name: "{{ config.timezone }}"
+      become: true
+      notify: Restart cron
+
+    - name: Ensure timezone data is up to date
+      ansible.builtin.apt:
+        name: tzdata
+        state: present
+      become: true
+
+- name: Locale Configuration
+  block:
+    - name: Install locales package
+      ansible.builtin.apt:
+        name: locales
+        state: present
+      become: true
+
+    - name: Generate locale
+      community.general.locale_gen:
+        name: "{{ config.locale }}"
+        state: present
+      become: true
+      notify: Reconfigure locales
+
+    - name: Set default locale
+      ansible.builtin.lineinfile:
+        path: /etc/default/locale
+        regexp: '^LANG='
+        line: "LANG={{ config.locale }}"
+        mode: '0777'
+        create: true
+      become: true
+
+    - name: Set additional locale variables
+      ansible.builtin.lineinfile:
+        path: /etc/default/locale
+        regexp: "^{{ item }}="
+        line: "{{ item }}={{ config.locale }}"
+        mode: '0777'
+        create: true
+      become: true
+      loop:
+        - LC_ALL
+        - LC_CTYPE
+        - LANGUAGE
+
+- name: Editor Configuration
+  block:
+    - name: Set vim as system default editor
+      community.general.alternatives:
+        name: editor
+        path: /usr/bin/vim.basic
+      become: true
+
+    - name: Set EDITOR environment variable globally
+      ansible.builtin.lineinfile:
+        path: /etc/environment
+        regexp: '^EDITOR='
+        line: 'EDITOR=vim'
+        create: true
+        mode: '0644'
+      become: true
+
+    - name: Set VISUAL environment variable globally
+      ansible.builtin.lineinfile:
+        path: /etc/environment
+        regexp: '^VISUAL='
+        line: 'VISUAL=vim'
+        create: true
+        mode: '0644'
+      become: true
+
+- name: Security Configuration
+  block:
+    - name: Create SSH hardening configuration file
+      ansible.builtin.copy:
+        content: |
+          # SSH Hardening Configuration
+          PermitRootLogin no
+          PasswordAuthentication no
+          PubkeyAuthentication yes
+          ChallengeResponseAuthentication no
+        dest: /etc/ssh/sshd_config.d/99-hardening.conf
+        owner: root
+        group: root
+        mode: '0644'
+      become: true
+      notify: Restart sshd
+
+    - name: Enable and start fail2ban
+      ansible.builtin.systemd:
+        name: fail2ban
+        enabled: true
+        state: started
+      become: true
+      when: "'fail2ban' in packages.linux_ubuntu.essential"

@@ -1,0 +1,45 @@
+---
+config:
+  minimal: true # essential packages only
+  headless: true # no GUI, e.g. proxmox lxc
+
+  timezone: Asia/Tokyo # choose from /usr/share/zoneinfo
+  locale: en_US.UTF-8 # choose from /usr/share/i18n/SUPPORTED
+
+  use_zsh: true # configure zsh & oh-my-zsh
+  git:
+    email: "me@akhdan.dev"
+    name: "Akhdan Fadhilah"
+    use_delta: true # use delta as git diff tool
+
+packages:
+  linux_ubuntu:
+    essential:
+      - build-essential # compiling software (gcc, g++, etc.)
+      - ca-certificates # apt to work with https repos
+      - curl # download files and transfer data
+      - dnsutils # dns tools (dig, nslookup, etc.)
+      - fail2ban # protects against brute force attacks
+      - git # version control system
+      - openssh-client # ssh client
+      - openssh-server # ssh server
+      - software-properties-common # apt additional, e.g. add-apt-repository
+      - vim # text editor
+      - tmux # terminal multiplexer
+      - wget # curl alternative
+    dev:
+      - bat # cat alternative
+      - eza # ls alternative
+      - fd-find # find alternative
+      - fzf # fuzzy finder
+      - htop # process monitor
+      - jq # json processor
+      - ncdu # disk usage analyzer
+      - python3-pip # python3 pip
+      - python3-venv # python3 venv
+      - ripgrep # grep alternative
+      - tree # directory tree viewer
+      - unzip # extract files from zip archives
+      - zip # create zip archives
+
+  darwin: [] # TODO: add brew packages

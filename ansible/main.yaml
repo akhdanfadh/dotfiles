@@ -1,0 +1,45 @@
+---
+- name: Bootstrapping and dotfiles in STEROID
+  hosts: localhost
+  gather_facts: true
+  vars_files:
+    - "../config.yaml"
+
+  tasks:
+    - name: Display detected OS information
+      ansible.builtin.debug:
+        msg: "Detected OS: {{ ansible_facts['distribution'] | default('Unknown') }} {{ ansible_facts['distribution_version'] | default('') }}"
+
+    - name: Run bootstrap playbook for Ubuntu systems
+      ansible.builtin.include_tasks: tasks/bootstrap.yaml
+      when: ansible_facts['distribution'] == "Ubuntu"
+
+    - name: Run bootstrap playbook for Darwin/macOS systems
+      ansible.builtin.debug:
+        msg: "Darwin/macOS bootstrap not yet implemented"
+      when: ansible_facts['os_family'] == "Darwin"
+
+    - name: Unsupported OS warning
+      ansible.builtin.fail:
+        msg: "This playbook only supports Ubuntu and Darwin/macOS. Detected: {{ ansible_facts['distribution'] | default(ansible_facts['os_family']) }}"
+      when:
+        - ansible_facts['distribution'] != "Ubuntu"
+        - ansible_facts['os_family'] != "Darwin"
+
+  handlers:
+    - name: Restart cron
+      ansible.builtin.systemd:
+        name: cron
+        state: restarted
+      become: true
+
+    - name: Reconfigure locales
+      ansible.builtin.command: dpkg-reconfigure -f noninteractive locales
+      become: true
+      changed_when: true
+
+    - name: Restart sshd
+      ansible.builtin.systemd:
+        name: sshd
+        state: restarted
+      become: true
