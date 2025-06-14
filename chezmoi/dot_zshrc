@@ -7,7 +7,7 @@ export LC_MEASUREMENT=en_GB.UTF-8
 # Auto load TMUX
 # https://unix.stackexchange.com/questions/43601/how-can-i-set-my-default-shell-to-start-up-tmux
 # tradeoff: cannot use open in wezterm from finder/nautilus
-if command -v tmux &> /dev/null && [ -n "$PS1" ] && [ -z "$TMUX" ] && ["TERM_PROGRAM" != "vscode"]; then
+if command -v tmux &> /dev/null && [ -n "$PS1" ] && [ -z "$TMUX" ] && [ "$TERM_PROGRAM" != "vscode" ]; then
     # printf "-- tmux friendly reminder --\n"
     tmux -u new-session -t main 2>/dev/null || tmux -u new -s main
 fi
@@ -34,9 +34,9 @@ zstyle ':omz:update' mode auto
 
 plugins=(
     ### CORE
+    fast-syntax-highlighting
     zsh-autocomplete
     zsh-autosuggestions
-    fast-syntax-highlighting
     # conda-zsh-completion
     # zsh-vi-mode
     ### EXTERNAL
@@ -49,7 +49,7 @@ plugins=(
     # docker  # completion and alias
     # docker-compose  # completion and alias
     eza  # invoke eza rather ls, and alias
-    fzf  # function
+    # fzf  # function
     # gh  # completion
     git  # function and alias
     gitfast  # faster completion

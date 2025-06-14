@@ -17,6 +17,7 @@ packages:
       - ca-certificates # apt to work with https repos
       - curl # download files and transfer data
       - dnsutils # dns tools (dig, nslookup, etc.)
+      - eza # ls alternative
       - fail2ban # protects against brute force attacks
       - git # version control system
       - openssh-client # ssh client
@@ -27,7 +28,6 @@ packages:
       - wget # curl alternative
     dev:
       - bat # cat alternative
-      - eza # ls alternative
       - fd-find # find alternative
       - fzf # fuzzy finder
       - htop # process monitor
