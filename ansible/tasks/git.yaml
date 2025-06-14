@@ -8,7 +8,7 @@
   become: true
 
 - name: GitHub CLI and Authentication (non-minimal mode only)
-  when: not config.minimal | bool
+  when: config.github_auth | bool
   block:
     - name: Ensure GitHub CLI is installed
       ansible.builtin.package:

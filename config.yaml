@@ -9,6 +9,7 @@ config:
   locale: en_US.UTF-8 # choose from /usr/share/i18n/SUPPORTED
   git_email: me@akhdan.dev
   git_name: Akhdan Fadhilah
+  github_auth: true # authenticate with GitHub using SSH key
 
 packages:
   linux_ubuntu:

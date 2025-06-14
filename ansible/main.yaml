@@ -73,6 +73,6 @@
           - "Chezmoi apply required"
           - "================================================================"
           - "Run the following command to apply your dotfiles:"
-          - "`chezmoi apply`"
+          - "`~/.local/bin/chezmoi apply`"
           - "Then reload your shell or run `source ~/.zshrc` to apply changes."
           - "================================================================"
