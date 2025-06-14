@@ -125,15 +125,15 @@ return {
 				ruff = { -- fast python linter and codeformatter
 					filetypes = { "python" }, -- default
 				},
-				clangd = {
-					filetypes = { "c", "cpp", "objc", "objcpp", "cuda", "proto" }, -- default
-				},
+				-- clangd = {
+				-- 	filetypes = { "c", "cpp", "objc", "objcpp", "cuda", "proto" }, -- default
+				-- },
 				marksman = {
 					filetypes = { "markdown", "markdown.mdx" }, -- default
 				},
-				texlab = {
-					filetypes = { "tex", "plaintex", "bib" }, -- default
-				},
+				-- texlab = {
+				-- 	filetypes = { "tex", "plaintex", "bib" }, -- default
+				-- },
 				lua_ls = {
 					-- cmd = {...},
 					-- capabilities = {},

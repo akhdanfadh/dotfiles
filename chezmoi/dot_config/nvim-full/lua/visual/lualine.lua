@@ -5,7 +5,8 @@ return {
 		local mode = {
 			"mode",
 			fmt = function(str)
-				return " " .. str
+				return "" .. str
+				-- return " " .. str
 				-- return " " .. str:sub(1, 1) -- displays only the first character of the mode
 			end,
 		}
@@ -58,7 +59,9 @@ return {
 		require("lualine").setup({
 			options = {
 				icons_enabled = true,
-				theme = "onedark",
+				theme = "auto",
+				-- theme = "monokai-pro",
+				-- theme = "onedark",
 				-- theme = "catppuccin-macchiato", -- Set theme based on environment variable
 				-- Some useful glyphs:
 				-- https://www.nerdfonts.com/cheat-sheet
@@ -69,7 +72,8 @@ return {
 			},
 			sections = {
 				lualine_a = { mode }, -- not "mode" as we use our defined `mode` above
-				lualine_b = { conda_env, "branch" },
+				-- lualine_b = { conda_env, "branch" },
+				lualine_b = { "branch" },
 				lualine_c = { filename },
 				lualine_x = {
 					diagnostics,

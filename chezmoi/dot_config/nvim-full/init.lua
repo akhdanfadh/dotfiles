@@ -1,6 +1,6 @@
 -- Make sure to setup mappings and options before loading lazy.nvim
-require("core.keymaps")
-require("core.options")
+require("keymaps")
+require("options")
 
 -- Bootstrap lazy.nvim plugin manager
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
@@ -17,7 +17,8 @@ vim.opt.rtp:prepend(lazypath)
 require("lazy").setup({
 
 	-- CORE
-	require("visual.onedark"), -- Colorscheme default
+	require("visual.monokai"), -- Colorscheme default
+	-- require("visual.onedark"), -- Colorscheme default
 	require("core.neo-tree"), -- Intuitive file explorer
 	require("core.treesitter"), -- Grammar: Highlight, edit, and navigate code
 	require("core.telescope"), -- Fuzzy finder (files, lsp, etc.)
@@ -33,8 +34,8 @@ require("lazy").setup({
 	require("visual.startify"), -- Greeter screen with session feature
 	require("visual.indent-blankline"), -- Add indentation guides (lines)
 	require("visual.colorizer"), -- Inline RGB color
-	require("visual.stay-centered"), -- Keeps your cursor at the center
-	require("visual.notify"), -- Fancy configurable notification manager
+	-- require("visual.stay-centered"), -- Keeps your cursor at the center
+	-- require("visual.notify"), -- Fancy configurable notification manager
 	-- require("archived.catppuccin"), -- Colorscheme very popular
 	-- require("archived.nightfox") -- Colorscheme backup
 	-- require("archived.starter-mini"), -- Mini greeter screen
@@ -44,13 +45,13 @@ require("lazy").setup({
 	require("integrate.tmux"), -- Better tmux navigation
 	require("integrate.git-config"), -- Git integration: vim-fugitive and vim-rhubarb
 	require("integrate.gitsigns"), -- Super fast git decorations for buffers
-	require("integrate.copilot"), -- AI completion
-	require("integrate.obsidian"), -- Obsidian note markdown editor
-	require("integrate.overleaf"), -- Overleaf buffer in neovim
-	require("integrate.firenvim"), -- Turn your browser into a neovim client
-	require("integrate.leetcode"), -- Solve LeetCode problems within Neovim
-	require("integrate.avante"), -- AI driven development
-	require("integrate.chatgpt"), -- ChatGPT integration
+	-- require("integrate.copilot"), -- AI completion
+	-- require("integrate.obsidian"), -- Obsidian note markdown editor
+	-- require("integrate.overleaf"), -- Overleaf buffer in neovim
+	-- require("integrate.firenvim"), -- Turn your browser into a neovim client
+	-- require("integrate.leetcode"), -- Solve LeetCode problems within Neovim
+	-- require("integrate.avante"), -- AI driven development
+	-- require("integrate.chatgpt"), -- ChatGPT integration
 
 	-- QUALITY OF LIFE
 	require("improve.sudo"), -- Read or write files with sudo command

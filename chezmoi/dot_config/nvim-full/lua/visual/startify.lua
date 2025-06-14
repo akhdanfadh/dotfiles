@@ -19,6 +19,10 @@ return {
 		vim.g.startify_files_number = 5
 		vim.g.startify_custom_indices = -- avoid 'qeibsvtjk' as they are used in startify mapping
 			{ "f", "d", "a", "l", "g", "h", "r", "w", "u", "o", "y", "p", "z", "x", "c", "n", "m" }
+		-- vim.g.startify_bookmarks = {
+		-- 	"/Users/akhdan/.local/share/chezmoi/dot_zshrc.tmpl",
+		-- 	"/Users/akhdan/.local/share/chezmoi/dot_config/tmux/tmux.conf.tmpl",
+		-- }
 		vim.g.startify_center = 50
 		local function get_padding()
 			local padding_left = 3

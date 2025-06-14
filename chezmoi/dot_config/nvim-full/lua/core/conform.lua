@@ -59,9 +59,10 @@ return {
 
 				formatters_by_ft = {
 					lua = { "stylua" },
-					latex = { "latexindent" },
+					-- latex = { "latexindent" },
 					-- Run multiple formatters sequentially
-					python = { "isort", "black" },
+					-- python = { "isort", "black" },
+					python = { "ruff_organize_imports", "ruff_format",  "ruff_fix" }}
 					markdown = function(bufnr)
 						return { "markdown-cli2", first(bufnr, "prettierd", "prettier"), "injected" }
 					end,
@@ -69,6 +70,8 @@ return {
 					-- rust = { "rustfmt", lsp_format = "fallback" },
 					-- Conform will run the first available formatter
 					-- javascript = { "prettierd", "prettier", stop_after_first = true },
+					-- Apply this to run on all filetypes
+					["*"] = { "trim_whitespace", "codespell" },
 				},
 			})
 

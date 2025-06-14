@@ -13,10 +13,10 @@ return {
 		-- vim.g.tmux_navigator_save_on_switch = 1
 	end,
 	keys = {
-		{ "<M-h>", "<cmd>TmuxNavigateLeft<cr>" },
-		{ "<M-j>", "<cmd>TmuxNavigateDown<cr>" },
-		{ "<M-k>", "<cmd>TmuxNavigateUp<cr>" },
-		{ "<M-l>", "<cmd>TmuxNavigateRight<cr>" },
-		{ "<M-/>", "<cmd>TmuxNavigatePrevious<cr>" },
+		{ "<C-M-h>", "<cmd>TmuxNavigateLeft<cr>" },
+		{ "<C-M-j>", "<cmd>TmuxNavigateDown<cr>" },
+		{ "<C-M-k>", "<cmd>TmuxNavigateUp<cr>" },
+		{ "<C-M-l>", "<cmd>TmuxNavigateRight<cr>" },
+		{ "<C-M-/>", "<cmd>TmuxNavigatePrevious<cr>" },
 	},
 }

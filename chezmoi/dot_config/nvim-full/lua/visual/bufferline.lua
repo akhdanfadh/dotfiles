@@ -17,14 +17,14 @@ return {
 				end,
 			},
 			-- highlights = require("catppuccin.groups.integrations.bufferline").get()
-			highlights = {
-				fill = {
-					bg = "#35373b",
-				},
-				separator = {
-					fg = "#404247",
-				},
-			},
+			-- highlights = {
+			-- 	fill = {
+			-- 		bg = "#35373b",
+			-- 	},
+			-- 	separator = {
+			-- 		fg = "#404247",
+			-- 	},
+			-- },
 		})
 
 		vim.keymap.set("n", "K", ":BufferLineCycleNext<CR>")
