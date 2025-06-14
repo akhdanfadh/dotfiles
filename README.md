@@ -12,6 +12,7 @@ I built this initially with just chezmoi to set up my Ubuntu desktop and Macbook
 > [!IMPORTANT]
 > If you haven't already, **copy your SSH public key to the target machine** since the playbook will [hardened](<https://en.wikipedia.org/wiki/Hardening_(computing)?useskin=vector>) the remote machine. See [Common Cases](#ssh-public-key) section below.
 
+The headless non-minimal setup currently requires at least 4GB available disk space.
 Do the following on the **target machine**. Then, check `config.yaml` file. If LGTY, run `ansible-playbook ansible/main.yaml --ask-become-pass`.
 
 ```bash
