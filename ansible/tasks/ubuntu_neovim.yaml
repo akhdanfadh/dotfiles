@@ -1,0 +1,30 @@
+---
+- name: Install prerequisites for PPA management
+  ansible.builtin.package:
+    name:
+      - software-properties-common
+      - ca-certificates
+      - gnupg
+    state: present
+  become: true
+
+- name: Add Neovim stable PPA repository
+  ansible.builtin.apt_repository:
+    repo: ppa:neovim-ppa/unstable
+    state: present
+    update_cache: true
+  become: true
+
+- name: Install Neovim
+  ansible.builtin.package:
+    name:
+      - neovim
+      - python3-neovim
+    state: present
+  become: true
+
+- name: Set Neovim as default editor
+  community.general.alternatives:
+    name: editor
+    path: /usr/bin/nvim
+  become: true

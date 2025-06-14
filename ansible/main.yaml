@@ -26,6 +26,10 @@
     - name: Chezmoi configuration and dotfiles setup
       ansible.builtin.include_tasks: tasks/chezmoi.yaml
 
+    - name: Configure Neovim
+      when: ansible_facts['distribution'] == "Ubuntu"
+      ansible.builtin.include_tasks: tasks/ubuntu_neovim.yaml
+
     - name: Configure ZSH and Oh My Zsh
       ansible.builtin.include_tasks: tasks/zsh.yaml
 
