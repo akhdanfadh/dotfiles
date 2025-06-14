@@ -65,3 +65,14 @@
           - "1. `gh auth login -p ssh`, then follow the prompts and select the generated SSH key"
           - "2. Or manually add the public key to GitHub: `cat ~/.ssh/github_ed25519.pub`"
           - "================================================================"
+
+    - name: Chezmoi apply required
+      ansible.builtin.debug:
+        msg:
+          - "================================================================"
+          - "Chezmoi apply required"
+          - "================================================================"
+          - "Run the following command to apply your dotfiles:"
+          - "`chezmoi apply`"
+          - "Then reload your shell or run `source ~/.zshrc` to apply changes."
+          - "================================================================"

@@ -35,3 +35,8 @@
         src: chezmoi.yaml.j2
         dest: "{{ ansible_env.HOME }}/.config/chezmoi/chezmoi.yaml"
         mode: '0644'
+
+    - name: Trigger chezmoi apply instructions
+      ansible.builtin.command: /bin/true
+      notify: Chezmoi apply required
+      changed_when: true
