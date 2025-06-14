@@ -2,7 +2,6 @@
 # This will be reiterated in the chezmoi.yaml, see template
 config:
   os: linux_ubuntu # supported: linux_ubuntu, darwin
-  wsl: false # set to true if running in WSL
   minimal: false # essential packages only, no github auth
   headless: true # no GUI, e.g. proxmox lxc
 
@@ -10,7 +9,6 @@ config:
   locale: en_US.UTF-8 # choose from /usr/share/i18n/SUPPORTED
   git_email: me@akhdan.dev
   git_name: Akhdan Fadhilah
-  nvim_config: nvim-minimal # adjust manually
 
 packages:
   linux_ubuntu:

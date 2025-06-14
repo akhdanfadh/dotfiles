@@ -1,17 +1,15 @@
-{{ if neq .chezmoi.os "darwin" -}}
 # Language environment
 export LANG=en_US.UTF-8
 export LC_TIME=en_GB.UTF-8
 export LC_PAPER=en_GB.UTF-8
 export LC_MEASUREMENT=en_GB.UTF-8
-{{- end }}
 
 # Auto load TMUX
 # https://unix.stackexchange.com/questions/43601/how-can-i-set-my-default-shell-to-start-up-tmux
 # tradeoff: cannot use open in wezterm from finder/nautilus
 if command -v tmux &> /dev/null && [ -n "$PS1" ] && [ -z "$TMUX" ] && ["TERM_PROGRAM" != "vscode"]; then
-    printf "-- tmux friendly reminder --\n"
-    # tmux -u new-session -t main 2>/dev/null || tmux -u new -s main
+    # printf "-- tmux friendly reminder --\n"
+    tmux -u new-session -t main 2>/dev/null || tmux -u new -s main
 fi
 
 # Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
@@ -30,11 +28,8 @@ fi
 
 # oh-my-zsh configuration
 export ZSH="$HOME/.oh-my-zsh"
-{{- if .minimal }}
 ZSH_THEME="robbyrussell"
-{{- else }}
-ZSH_THEME="powerlevel10k/powerlevel10k"
-{{- end }}
+# ZSH_THEME="powerlevel10k/powerlevel10k"
 zstyle ':omz:update' mode auto
 
 plugins=(
@@ -137,19 +132,15 @@ pastefinish() {
 zstyle :bracketed-paste-magic paste-init pasteinit
 zstyle :bracketed-paste-magic paste-finish pastefinish
 
-# Neovim configuration
-export NVIM_APPNAME={{ .nvim_config }}
-export EDITOR="nvim"
-alias v="nvim"
-alias vr="nvim -R"
-
-{{ if eq .wsl true -}}
-# WSL Browser config - make sure `wslu` is installed
-export BROWSER=wslview
-{{- end -}}
-
 # User local bin (for chezmoi, etc.)
 export PATH=$HOME/.local/bin:$PATH
+export EDITOR="nvim"
+# export BROWSER=wslview  # wsl browser, make sure `wslu` is installed
+
+# Aliases
+alias v="nvim"
+alias vr="nvim -R"
+alias t="tmux"
 
 # Custom shell config for each machine
 [ -s "$HOME/.customrc" ] && source "$HOME/.customrc"
