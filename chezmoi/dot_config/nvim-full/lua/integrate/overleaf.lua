@@ -6,7 +6,7 @@ return {
 		-- Session key is platform-independent, e.g.,
 		-- WSL can access the internet through Windows, so it can communicate with Overleaf servers
 		vim.g.AirLatexCookie =
-			"overleaf_session2={{ .overleaf_cookies }}"
+			"overleaf_session2=session_key"
 		vim.g.AirLatexDomain = "www.overleaf.com"
 
 		-- Optional additional settings

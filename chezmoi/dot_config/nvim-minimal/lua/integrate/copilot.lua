@@ -1,10 +1,8 @@
 return {
 	"github/copilot.vim",
 	config = function()
-        {{- if eq .wsl true -}}
 		-- WSL workaround to auth: https://github.com/orgs/community/discussions/50263
-		vim.g.copilot_browser = "/mnt/c/Program Files/Mozilla Firefox/firefox.exe"
-        {{ end }}
+		-- vim.g.copilot_browser = "/mnt/c/Program Files/Mozilla Firefox/firefox.exe"
 
 		-- Disable Copilot globally on startup, doesn't control toggling
 		vim.g.copilot_enabled = false

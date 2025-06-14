@@ -1,43 +1,11 @@
 ---
-- name: Git Basic Configuration
-  block:
-    - name: Ensure git and git-delta is installed
-      ansible.builtin.package:
-        name:
-          - git
-          - git-delta
-        state: present
-      become: true
-
-    - name: Configure git user email
-      community.general.git_config:
-        name: user.email
-        scope: global
-        value: "{{ config.git_email }}"
-
-    - name: Configure git user name
-      community.general.git_config:
-        name: user.name
-        scope: global
-        value: "{{ config.git_name }}"
-
-    - name: Configure git to use delta as diff tool
-      community.general.git_config:
-        name: core.pager
-        scope: global
-        value: "delta"
-
-    - name: Configure delta settings
-      community.general.git_config:
-        name: "{{ item.key }}"
-        scope: global
-        value: "{{ item.value }}"
-      loop:
-        - { key: "interactive.diffFilter", value: "delta --color-only" }
-        - { key: "delta.navigate", value: "true" }
-        - { key: "delta.light", value: "false" }
-        - { key: "merge.conflictstyle", value: "diff3" }
-        - { key: "diff.colorMoved", value: "default" }
+- name: Ensure git and git-delta is installed
+  ansible.builtin.package:
+    name:
+      - git
+      - git-delta
+    state: present
+  become: true
 
 - name: GitHub CLI and Authentication (non-minimal mode only)
   when: not config.minimal | bool

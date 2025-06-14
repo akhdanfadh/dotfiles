@@ -15,11 +15,6 @@ config = {
 	-- term = "wezterm",
 	-- !!! BUG: Setting this will make ssh not working properly
 
-    {{- if eq .wsl true -}}
-	-- >>> Default WSL
-	default_domain = "WSL:Ubuntu",
-    {{ end }}
-
 	-- >>> Appearance
 	color_scheme = "One Dark (Gogh)",
 	colors = {
@@ -78,5 +73,3 @@ config = {
 
 -- Return the configuration to wezterm
 return config
-
--- vim: syntax=lua commentstring=--\ %s

@@ -5,8 +5,8 @@ return {
 	-- ft = "markdown",
 	event = { -- Replace above to open markdown only in this directory
 		-- Use absolute path
-		"BufReadPre {{ .obsidian_vault }}/*.md",
-		"BufNewFile {{ .obsidian_vault }}/*.md",
+		"BufReadPre /absolute-path-to-vault-path/*.md",
+		"BufNewFile /absolute-path-to-vault-path/*.md",
 	},
 	dependencies = {
 		"nvim-lua/plenary.nvim", -- required
@@ -19,7 +19,7 @@ return {
 			workspaces = {
 				{
 					name = "default",
-					path = "{{ .obsidian_vault }}",
+					path = "~/vault-path",
 				},
 			},
 			-- Optional, if you keep notes in a specific subdirectory of your vault.

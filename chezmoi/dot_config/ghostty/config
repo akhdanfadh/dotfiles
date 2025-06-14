@@ -1,0 +1,10 @@
+font-family = IosevkaTerm Nerd Font Mono
+font-style = Medium
+font-size = 16
+theme = Monokai Classic
+
+title = "👻"
+confirm-close-surface = false
+shell-integration = zsh
+window-padding-x = 10
+window-padding-y = 5

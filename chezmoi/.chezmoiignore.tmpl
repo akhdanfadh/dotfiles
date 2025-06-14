@@ -1,11 +1,19 @@
-{{ if .headless }}
-.config/solaar/
-.config/Stretchly/
-.config/nvim-full/
-{{ if eq .os "linux_ubuntu" }}
-.config/tiling-assistant/
-{{ end }}
-.config/wezterm/
+# minimal: git, nvim-minimal, tmux, zshrc, zshenv
+# headless: (minimal+) nvim-headless, p10k
+# desktop: just put everything
+
+{{- if neq .os "linux_ubuntu" -}}
+.zshenv
 {{ end -}}
 
-{{- /* vim: set filetype=gitignore: */ -}}
+{{ if .headless -}}
+.config/nvim-full/
+.config/solaar/
+.config/Stretchly/
+.config/tiling-assistant/
+.config/wezterm/
+{{ if .minimal -}}
+.config/p10k.zsh
+.config/nvim-headless/
+{{- end }}
+{{- end -}}

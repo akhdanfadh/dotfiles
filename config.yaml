@@ -12,13 +12,6 @@ config:
   git_name: Akhdan Fadhilah
   nvim_config: nvim-minimal # adjust manually
 
-# NEVER SHARE PUBLICLY, will be used as environment variables
-secrets:
-  anthropic_api_key: "a-key" # used in neovim, aider, or any
-  openai_api_key: "a-key" # used in neovim, aider, or any
-  obsidian_vault: "a-path" # absolute path to Obsidian vault, for neovim obsidian plugin
-  overleaf_cookies: "a-cookie" # used in neovim airlatex plugin
-
 packages:
   linux_ubuntu:
     essential:
