@@ -62,16 +62,16 @@ return {
 					-- latex = { "latexindent" },
 					-- Run multiple formatters sequentially
 					-- python = { "isort", "black" },
-					python = { "ruff_organize_imports", "ruff_format",  "ruff_fix" }}
+					python = { "ruff_organize_imports", "ruff_format",  "ruff_fix" },
 					markdown = function(bufnr)
-						return { "markdown-cli2", first(bufnr, "prettierd", "prettier"), "injected" }
+						return { "markdownlint-cli2", first(bufnr, "prettierd", "prettier"), "injected" }
 					end,
 					-- You can customize some of the format options for the filetype (:help conform.format)
 					-- rust = { "rustfmt", lsp_format = "fallback" },
 					-- Conform will run the first available formatter
 					-- javascript = { "prettierd", "prettier", stop_after_first = true },
 					-- Apply this to run on all filetypes
-					["*"] = { "trim_whitespace", "codespell" },
+					["*"] = { "trim_whitespace" },
 				},
 			})
 
