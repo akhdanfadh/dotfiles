@@ -17,11 +17,6 @@
 	# Configure GPG signature format to use SSH keys for commit signing,
 	# rather than the default GPG keys.
 	format = ssh
-{{ if .github_auth -}}
-[url "git@github.com:"]
-	# Ensures SSH keys are used for authentication instead of HTTPS.
-	insteadOf = "https://github.com/"
-{{- end }}
 [log]
 	# Formats commit dates in ISO 8601 format (e.g., 2024-10-04)
 	date = iso
