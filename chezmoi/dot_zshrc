@@ -53,6 +53,7 @@ plugins=(
     # gh  # completion
     git  # function and alias
     gitfast  # faster completion
+    npm  # completion and alias
     pip  # completion and alias
     # rbw  # completion and function
     # rust  # completion

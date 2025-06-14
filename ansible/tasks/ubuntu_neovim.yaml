@@ -15,11 +15,36 @@
     update_cache: true
   become: true
 
-- name: Install Neovim
+- name: Install Neovim and dependencies for plugins
   ansible.builtin.package:
     name:
       - neovim
       - python3-neovim
+      - nodejs
+      - npm
+      - tree-sitter-cli
+      - cmake # telescope-fzf-native for telescope.nvim
+    state: present
+  become: true
+
+- name: Install npm dependencies for Neovim plugins
+  community.general.npm:
+    name: "{{ item }}"
+    global: true
+    state: present
+  become: true
+  loop:
+    - yarn
+    - markdownlint-cli2
+    - "@fsouza/prettierd"
+
+- name: Install luarocks for Neovim
+  ansible.builtin.apt:
+    name:
+      - build-essential
+      - libreadline-dev
+      - unzip
+      - luarocks
     state: present
   become: true
 
