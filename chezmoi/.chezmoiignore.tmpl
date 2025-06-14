@@ -2,7 +2,7 @@
 # headless: (minimal+) nvim-headless, p10k
 # desktop: just put everything
 
-{{- if neq .os "linux_ubuntu" -}}
+{{- if ne .os "linux_ubuntu" -}}
 .zshenv
 {{ end -}}
 
