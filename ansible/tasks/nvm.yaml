@@ -1,0 +1,29 @@
+---
+- name: Set NVM variables
+  ansible.builtin.set_fact:
+    nvm_dir: "{{ ansible_env.HOME }}/.nvm"
+    nvm_version: "v0.40.3"
+    node_version: "22"
+
+- name: Download NVM install script
+  ansible.builtin.get_url:
+    url: "https://raw.githubusercontent.com/nvm-sh/nvm/{{ nvm_version }}/install.sh"
+    dest: "/tmp/nvm-install.sh"
+    mode: '0755'
+
+- name: Install NVM
+  ansible.builtin.shell: /tmp/nvm-install.sh
+  args:
+    executable: /bin/bash
+    creates: "{{ nvm_dir }}/nvm.sh"
+
+- name: Install node.js
+  ansible.builtin.shell: |
+    source {{ nvm_dir }}/nvm.sh
+    nvm install {{ node_version }}
+    nvm alias default {{ node_version }}
+  args:
+    executable: /bin/bash
+    creates: "{{ nvm_dir }}/versions/node/v{{ node_version }}*"
+  environment:
+    NVM_DIR: "{{ nvm_dir }}"

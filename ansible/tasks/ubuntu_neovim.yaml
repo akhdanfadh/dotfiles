@@ -20,23 +20,27 @@
     name:
       - neovim
       - python3-neovim
-      - nodejs
-      - npm
       - tree-sitter-cli
       - cmake # telescope-fzf-native for telescope.nvim
     state: present
   become: true
 
+- name: Install NVM for Neovim
+  ansible.builtin.include_tasks: nvm.yaml
+
 - name: Install npm dependencies for Neovim plugins
-  community.general.npm:
-    name: "{{ item }}"
-    global: true
-    state: present
-  become: true
+  ansible.builtin.shell: |
+    source {{ ansible_env.HOME }}/.nvm/nvm.sh
+    npm install -g {{ item }}
+  args:
+    executable: /bin/bash
+  environment:
+    NVM_DIR: "{{ ansible_env.HOME }}/.nvm"
   loop:
     - yarn
     - markdownlint-cli2
     - "@fsouza/prettierd"
+  changed_when: false
 
 - name: Install luarocks for Neovim
   ansible.builtin.apt:
