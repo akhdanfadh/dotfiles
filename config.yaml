@@ -1,15 +1,15 @@
 ---
-# This will be reiterated in the chezmoi.yaml, see template
 config:
+  # This will be reiterated in the chezmoi.yaml, see template
   os: linux_ubuntu # supported: linux_ubuntu, darwin
-  minimal: false # essential packages only, no github auth
+  minimal: true # essential packages only
   headless: true # no GUI, e.g. proxmox lxc
 
   timezone: Asia/Tokyo # choose from /usr/share/zoneinfo
   locale: en_US.UTF-8 # choose from /usr/share/i18n/SUPPORTED
   git_email: me@akhdan.dev
   git_name: Akhdan Fadhilah
-  github_auth: true # authenticate with GitHub using SSH key
+  github_auth: false # authenticate with GitHub using SSH key
 
 packages:
   linux_ubuntu:
@@ -58,3 +58,4 @@ oh_my_zsh:
       repo: https://github.com/jeffreytse/zsh-vi-mode
     - name: conda-zsh-completion
       repo: https://github.com/conda-incubator/conda-zsh-completion
+
