@@ -2,7 +2,6 @@
     "bat"
     "ca-certificates"
     "cmake"
-    "curl"
     "fzf"
     "gcc"
     "git"
@@ -18,13 +17,11 @@
     "tmux"
     "tree"
     "unzip"
-    "vim"
-    "wget"
-    "zip"
-    "zsh" -}}
+    "zip" -}}
 
 {{- $apt_pkg := list
     "build-essential"
+    "curl"
     "fd-find"
     "language-pack-en"
     "openssh-client"
@@ -35,14 +32,18 @@
     "python3-venv"
     "software-properties-common"
     "tar"
-    "ufw" -}}
+    "ufw"
+    "vim"
+    "zsh" -}}
 
 {{- $brew_pkg := list
+    "cmake-docs"
     "eza"
     "fd"
     "git-delta"
     "openssh"
-    "python" -}}
+    "python"
+    "wget" -}}
 
 {{- $packages := list }}
 {{- if eq .os_id "linux-ubuntu" -}}
