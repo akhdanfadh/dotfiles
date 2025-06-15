@@ -46,25 +46,35 @@ printf "=== Enter a file location for the SSH key [default: %s]: " "$default_key
 read -r key_location
 key_location=${key_location:-$default_key_location}  # Use default if input is empty
 
-# Check if SSH key exists
+# Check if SSH key exists and handle overwrite scenario
+generate_key=true
 if [[ -f "$key_location" ]]; then
-    printf "\n=== That SSH key exists. Proceed with caution.\n"
+    printf "\n=== SSH key already exists at %s\n" "$key_location"
+    printf "=== Do you want to overwrite it? [y/N]: "
+    read -r overwrite_response
+    if [[ "$overwrite_response" =~ ^([yY][eE][sS]|[yY])$ ]]; then
+        printf "=== Proceeding with key generation...\n"
+    else
+        printf "=== Keeping existing SSH key...\n"
+        generate_key=false
+    fi
 fi
 
-# Prompt for SSH key comment, with default
-default_comment="$(whoami)@$(hostname)__git@github.com"
-printf "=== Enter a comment for the SSH key [default: %s]: " "$default_comment"
-read -r key_comment
-key_comment=${key_comment:-$default_comment}  # Use default if input is empty
+if $generate_key; then
+    # Prompt for SSH key comment, with default
+    default_comment="$(whoami)@$(hostname)__git@github.com"
+    printf "=== Enter a comment for the SSH key [default: %s]: " "$default_comment"
+    read -r key_comment
+    key_comment=${key_comment:-$default_comment}  # Use default if input is empty
 
-printf "=== Enter an optional passphrase (leave blank for none): "
-read -r key_passphrase
+    printf "=== Enter an optional passphrase (leave blank for none): "
+    read -r key_passphrase
 
-# Generate SSH key
-if [ -z "$key_passphrase" ]; then
-    ssh-keygen -t ed25519 -C "$key_comment" -f "$key_location" -N ""
-else
-    ssh-keygen -t ed25519 -C "$key_comment" -f "$key_location" -N "$key_passphrase"
+    # Generate SSH key with error handling
+    if ! ([ -z "$key_passphrase" ] && ssh-keygen -t ed25519 -C "$key_comment" -f "$key_location" -N "" || \
+          [ -n "$key_passphrase" ] && ssh-keygen -t ed25519 -C "$key_comment" -f "$key_location" -N "$key_passphrase"); then
+        printf "=== Warning: SSH key generation failed. Using existing key if available.\n"
+    fi
 fi
 
 printf "\n=== Authenticating with Github\n"
