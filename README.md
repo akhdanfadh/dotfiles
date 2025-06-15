@@ -23,6 +23,17 @@ git clone https://github.com/akhdanfadh/dotfiles.git chezmoi
 cd chezmoi
 ```
 
+On MacOS,
+
+```bash
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+brew install ansible git
+
+mkdir -p "$HOME/.local/share" && cd "$_"
+git clone https://github.com/akhdanfadh/dotfiles.git chezmoi
+cd chezmoi
+```
+
 ## Common Cases
 
 ### Non-Root User

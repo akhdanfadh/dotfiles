@@ -1,26 +1,35 @@
 ---
-- name: Set chezmoi binary path
-  ansible.builtin.set_fact:
-    chezmoi_bin_path: "{{ ansible_env.HOME }}/.local/bin/chezmoi"
+- name: Install chezmoi (macOS)
+  when: ansible_facts['os_family'] == "Darwin"
+  community.general.homebrew:
+    name: chezmoi
+    state: present
 
-- name: Check if chezmoi is already installed
-  ansible.builtin.stat:
-    path: "{{ chezmoi_bin_path }}"
-  register: chezmoi_bin
-
-- name: Install chezmoi
-  when: not chezmoi_bin.stat.exists
+- name: Install chezmoi (Linux)
+  when: ansible_facts['os_family'] != "Darwin"
   block:
-    - name: Ensure ~/.local/bin directory exists
-      ansible.builtin.file:
-        path: "{{ ansible_env.HOME }}/.local/bin"
-        state: directory
-        mode: '0755'
+    - name: Set chezmoi binary path
+      ansible.builtin.set_fact:
+        chezmoi_bin_path: "{{ ansible_env.HOME }}/.local/bin/chezmoi"
 
-    - name: Install chezmoi to ~/.local/bin
-      ansible.builtin.shell: |
-        sh -c "$(curl -fsLS get.chezmoi.io)" -- -b {{ ansible_env.HOME }}/.local/bin
-      changed_when: true
+    - name: Check if chezmoi is already installed
+      ansible.builtin.stat:
+        path: "{{ chezmoi_bin_path }}"
+      register: chezmoi_bin
+
+    - name: Install chezmoi
+      when: not chezmoi_bin.stat.exists
+      block:
+        - name: Ensure ~/.local/bin directory exists
+          ansible.builtin.file:
+            path: "{{ ansible_env.HOME }}/.local/bin"
+            state: directory
+            mode: '0755'
+
+        - name: Install chezmoi to ~/.local/bin
+          ansible.builtin.shell: |
+            sh -c "$(curl -fsLS get.chezmoi.io)" -- -b {{ ansible_env.HOME }}/.local/bin
+          changed_when: true
 
 - name: Configure chezmoi
   block:
@@ -37,6 +46,7 @@
         mode: '0644'
 
     - name: Trigger chezmoi apply instructions
-      ansible.builtin.command: /bin/true
+      ansible.builtin.command:
+        cmd: echo "Configuration complete"
       notify: Chezmoi apply required
       changed_when: true

@@ -1,5 +1,6 @@
 ---
-- name: Ensure git and git-delta is installed
+- name: Ensure git and git-delta is installed (Linux)
+  when: ansible_facts['os_family'] != "Darwin"
   ansible.builtin.package:
     name:
       - git
@@ -7,14 +8,29 @@
     state: present
   become: true
 
+- name: Ensure git and git-delta is installed (macOS)
+  when: ansible_facts['os_family'] == "Darwin"
+  community.general.homebrew:
+    name:
+      - git
+      - git-delta
+    state: present
+
 - name: GitHub CLI and Authentication (non-minimal mode only)
   when: config.github_auth | bool
   block:
-    - name: Ensure GitHub CLI is installed
+    - name: Ensure GitHub CLI is installed (Linux)
+      when: ansible_facts['os_family'] != "Darwin"
       ansible.builtin.package:
         name: gh
         state: present
       become: true
+
+    - name: Ensure GitHub CLI is installed (macOS)
+      when: ansible_facts['os_family'] == "Darwin"
+      community.general.homebrew:
+        name: gh
+        state: present
 
     - name: Check GitHub authentication status
       ansible.builtin.command: gh auth status
@@ -56,6 +72,7 @@
                   IdentityFile {{ ansible_env.HOME }}/.ssh/github_ed25519
 
         - name: Trigger GitHub authentication instructions
-          ansible.builtin.command: /bin/true
+          ansible.builtin.command:
+            cmd: echo "SSH key configuration complete"
           notify: GitHub authentication required
           changed_when: true

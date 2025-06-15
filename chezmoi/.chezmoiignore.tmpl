@@ -2,10 +2,6 @@
 # headless: (minimal+) nvim-headless, p10k
 # desktop: just put everything
 
-{{- if ne .os "linux_ubuntu" -}}
-.zshenv
-{{ end -}}
-
 {{ if .headless -}}
 .config/solaar/
 .config/Stretchly/
