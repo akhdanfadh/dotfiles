@@ -8,7 +8,7 @@ printf "=== Chezmoi Before 05 - Install Lua and Luarocks\n"
 # Install Lua if not already installed
 if ! command -v lua &> /dev/null; then
     # Get the latest Lua version dynamically
-    # if ! LUA_VERSION=$(curl -s https://www.lua.org/ftp/ | grep -oP 'lua-\d+\.\d+\.\d+\.tar\.gz' | sort -V | tail -n 1 | sed 's/\.tar\.gz//'); then
+    # if ! LUA_VERSION=$(curl -s https://www.lua.org/ftp/ | grep -oE 'lua-\d+\.\d+\.\d+\.tar\.gz' | sort -V | tail -n 1 | sed 's/\.tar\.gz//'); then
     #     printf "=== Failed to get latest lua version, defaulting to installing version 5.4.7\n"
     #     LUA_VERSION="lua-5.4.7"
     # fi
@@ -45,23 +45,19 @@ fi
 
 # Install Luarocks if not already installed
 if ! command -v luarocks &> /dev/null; then
-    {{ if eq .chezmoi.os "darwin" }}
-        brew install luarocks
-    {{ else if eq .chezmoi.os "linux" }}
-        # Get the latest Luarocks version dynamically
-        if ! LUAROCKS_VERSION=$(curl -s https://luarocks.github.io/luarocks/releases/ | grep -oP 'luarocks-\d+\.\d+\.\d+\.tar\.gz' | sort -V | tail -n 1 | sed 's/\.tar\.gz//'); then
-            printf "=== Failed to get latest luarocks version, defaulting to installing version 3.11.1\n"
-            LUAROCKS_VERSION="luarocks-3.11.1"
-        fi
-        curl -R -O https://luarocks.github.io/luarocks/releases/$LUAROCKS_VERSION.tar.gz
-        tar -zxf $LUAROCKS_VERSION.tar.gz
-        cd $LUAROCKS_VERSION
-        ./configure --with-lua-include=/usr/local/include
-        make
-        sudo make install
-        cd ..
-        rm -rf $LUAROCKS_VERSION $LUAROCKS_VERSION.tar.gz
-    {{ end }}
+    # Get the latest Luarocks version dynamically
+    if ! LUAROCKS_VERSION=$(curl -s https://luarocks.github.io/luarocks/releases/ | grep -oE 'luarocks-\d+\.\d+\.\d+\.tar\.gz' | sort -V | tail -n 1 | sed 's/\.tar\.gz//'); then
+        printf "=== Failed to get latest luarocks version, defaulting to installing version 3.11.1\n"
+        LUAROCKS_VERSION="luarocks-3.11.1"
+    fi
+    curl -R -O https://luarocks.github.io/luarocks/releases/$LUAROCKS_VERSION.tar.gz
+    tar -zxf $LUAROCKS_VERSION.tar.gz
+    cd $LUAROCKS_VERSION
+    ./configure --with-lua-include=/usr/local/include
+    make
+    sudo make install
+    cd ..
+    rm -rf $LUAROCKS_VERSION $LUAROCKS_VERSION.tar.gz
 else
     printf "=== Luarocks is already installed\n"
 fi
