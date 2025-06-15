@@ -70,7 +70,7 @@ printf "\n=== Installing non-apt packages\n"
 # Install git-delta
 if ! command -v delta &> /dev/null; then
     printf "=== Installing git-delta\n"
-    if ! DELTA_VERSION=$(curl -s https://api.github.com/repos/dandavison/delta/releases/latest | grep -Po '"tag_name": "\K.*?(?=")'); then
+    if ! DELTA_VERSION=$(curl -s https://api.github.com/repos/dandavison/delta/releases/latest | grep -Eo '"tag_name": "\K.*?(?=")'); then
         printf "=== Failed to get latest git-delta version, defaulting to installing version 0.18.2\n"
         DELTA_VERSION="0.18.2"
     fi
