@@ -107,8 +107,8 @@ bindkey -M menuselect 'k' reverse-menu-complete
 # bindkey -M menuselect '^I' accept-line
 
 # Autosuggestion binding
-bindkey "^_" autosuggest-accept  # Ctrl-/ accept all
-bindkey "^L" forward-word  # accept next word
+# bindkey "^_" autosuggest-accept  # Ctrl-/ accept all, Ctrl-Right works
+bindkey "^Y" forward-word  # accept next word
 
 # <<< KEYBINDINGS <<<
 
