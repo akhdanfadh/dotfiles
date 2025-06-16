@@ -134,8 +134,8 @@ export EDITOR="nvim"
 
 # Aliases
 alias v="nvim"
-alias vr="nvim -R"
-alias t="tmux"
+alias vr="nvim -R"  # read-only mode
+alias t='f(){ tmux -u new-session -t "$1" 2>/dev/null || tmux -u new -s "$1"; }; f'
 
 # Custom shell config for each machine
 [ -s "$HOME/.customrc" ] && source "$HOME/.customrc"
