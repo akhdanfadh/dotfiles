@@ -3,7 +3,8 @@
 # tradeoff: cannot use open in wezterm from finder/nautilus
 if command -v tmux &> /dev/null && [ -n "$PS1" ] && [ -z "$TMUX" ] && [ "$TERM_PROGRAM" != "vscode" ]; then
     printf "-- tmux friendly reminder --\n"
-    # tmux -u new-session -t main 2>/dev/null || tmux -u new -s main
+    # single window group, multiple sessions: https://gist.github.com/chakrit/5004006
+    # tmux new-session -d -s main; tmux new-session -t main \; set-option destroy-unattached
 fi
 
 # Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
