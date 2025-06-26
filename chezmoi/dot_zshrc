@@ -143,3 +143,17 @@ alias t='f(){ tmux -u new-session -t "$1" 2>/dev/null || tmux -u new -s "$1"; };
 
 # To customize prompt, run `p10k configure` or edit ~/.config/p10k.zsh or ~/.p10k.zsh.
 [[ -f ~/.config/p10k.zsh ]] && source ~/.config/p10k.zsh || source ~/.p10k.zsh
+
+# -- Atuin daemon management
+# On ZFS filesystems, we need to use Atuin's daemon mode to avoid the SQLite/ZFS 
+# performance bug (https://github.com/atuinsh/atuin/issues/952).
+# If the Atuin daemon process is running, we point to a ZFS-specific
+# config that has daemon=true enabled. This ensures that all Atuin commands
+# communicate with the running daemon rather than attempting direct database access.
+# The setup-atuin-daemon.sh script should be run on ZFS systems to create and 
+# start the systemd service for the daemon.
+if pgrep -f "atuin daemon" > /dev/null; then
+  export ATUIN_CONFIG_DIR="$HOME/.config/atuin/zfs"
+fi
+. "$HOME/.atuin/bin/env"
+eval "$(atuin init zsh)"
